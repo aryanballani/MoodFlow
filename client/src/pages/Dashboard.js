@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../components/sidebar';
 import { Calendar, Activity, BarChart, Settings, User } from 'lucide-react';
 import '../styles/Dashboard.css';
 
@@ -96,23 +97,7 @@ const DashboardLayout = () => {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="sidebar-header">
-          <h1>MoodTracker</h1>
-        </div>
-        <nav className="sidebar-nav">
-          {sidebarItems.map(({ id, icon: Icon, label }) => (
-            <button
-              key={id}
-              onClick={() => handleNavigation(id)}
-              className={`nav-item ${activeTab === id ? 'active' : ''}`}
-            >
-              <Icon className="nav-icon" />
-              <span>{label}</span>
-            </button>
-          ))}
-        </nav>
-      </div>
+      <Sidebar />
 
       {/* Main Content */}
       <div className="main-content">

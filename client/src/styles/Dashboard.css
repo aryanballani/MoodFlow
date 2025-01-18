@@ -19,8 +19,14 @@
 /* Main Layout */
 .dashboard-container {
   display: flex;
-  height: 100vh;
-  background-color: var(--color-background-light);
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
 }
 
 /* Sidebar Styles */
@@ -73,11 +79,6 @@
   height: 1.25rem;
 }
 
-/* Main Content Styles */
-.main-content {
-  flex: 1;
-  overflow: auto;
-}
 
 .content-wrapper {
   padding: 2rem;
