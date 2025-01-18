@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Activity, BarChart, Settings, User } from 'lucide-react';
 import '../styles/Dashboard.css';
 
@@ -11,6 +12,15 @@ const DashboardLayout = () => {
   const username = "Aryan";
 
   const [activeTab, setActiveTab] = useState('dashboard');
+  const navigate = useNavigate();
+
+  const handleNavigation = (id) => {
+    setActiveTab(id);
+    if (id === 'profile') {
+      navigate('/profile');
+    }
+  };
+
   const [selectedMood, setSelectedMood] = useState(null);
   const [completedActivities, setCompletedActivities] = useState([]);
   const [streak, setStreak] = useState(0);
@@ -94,7 +104,7 @@ const DashboardLayout = () => {
           {sidebarItems.map(({ id, icon: Icon, label }) => (
             <button
               key={id}
-              onClick={() => setActiveTab(id)}
+              onClick={() => handleNavigation(id)}
               className={`nav-item ${activeTab === id ? 'active' : ''}`}
             >
               <Icon className="nav-icon" />
