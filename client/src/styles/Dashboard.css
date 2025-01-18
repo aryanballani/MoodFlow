@@ -1,15 +1,33 @@
+:root {
+  --color-background-light: #f9fafb;
+  --color-white: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text-dark: #1f2937;
+  --color-text-light: #4b5563;
+  --color-hover-background: #f3f4f6;
+  --color-active-background: #eff6ff;
+  --color-primary: #2563eb;
+  --color-primary-light: #93c5fd;
+  --color-success-light: #f0fdf4;
+  --color-info-light: #eff6ff;
+  --color-warning-light: #fefce8;
+  --color-neutral-light: #f5f3ff;
+  --color-box-shadow: rgba(0, 0, 0, 0.05);
+  --color-box-shadow-hover: rgba(0, 0, 0, 0.1);
+}
+
 /* Main Layout */
 .dashboard-container {
   display: flex;
   height: 100vh;
-  background-color: #f9fafb;
+  background-color: var(--color-background-light);
 }
 
 /* Sidebar Styles */
 .sidebar {
   width: 256px;
-  background-color: white;
-  border-right: 1px solid #e5e7eb;
+  background-color: var(--color-white);
+  border-right: 1px solid var(--color-border);
   padding: 1rem;
 }
 
@@ -20,7 +38,7 @@
 .sidebar-header h1 {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #1f2937;
+  color: var(--color-text-dark);
 }
 
 .sidebar-nav {
@@ -36,18 +54,18 @@
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  color: #4b5563;
+  color: var(--color-text-light);
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
 }
 
 .nav-item:hover {
-  background-color: #f3f4f6;
+  background-color: var(--color-hover-background);
 }
 
 .nav-item.active {
-  background-color: #eff6ff;
-  color: #2563eb;
+  background-color: var(--color-active-background);
+  color: var(--color-primary);
 }
 
 .nav-icon {
@@ -73,11 +91,11 @@
 .welcome-header h2 {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #1f2937;
+  color: var(--color-text-dark);
 }
 
 .welcome-header p {
-  color: #4b5563;
+  color: var(--color-text-light);
 }
 
 /* Mood Grid */
@@ -91,7 +109,7 @@
 .mood-card {
   padding: 1.5rem;
   border-radius: 0.75rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--color-box-shadow);
   transition: box-shadow 0.2s;
   border: none;
   width: 100%;
@@ -99,13 +117,21 @@
 }
 
 .mood-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--color-box-shadow-hover);
 }
 
-.mood-card-happy { background-color: #f0fdf4; }
-.mood-card-calm { background-color: #eff6ff; }
-.mood-card-energetic { background-color: #fefce8; }
-.mood-card-tired { background-color: #f5f3ff; }
+.mood-card-happy {
+  background-color: var(--color-success-light);
+}
+.mood-card-calm {
+  background-color: var(--color-info-light);
+}
+.mood-card-energetic {
+  background-color: var(--color-warning-light);
+}
+.mood-card-tired {
+  background-color: var(--color-neutral-light);
+}
 
 .mood-emoji {
   font-size: 2rem;
@@ -113,16 +139,16 @@
 }
 
 .mood-label {
-  color: #374151;
+  color: var(--color-text-dark);
   font-weight: 500;
 }
 
 /* Card Component */
 .card {
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: 0.5rem;
   padding: 1.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--color-box-shadow);
 }
 
 /* Activity Suggestions */
@@ -137,7 +163,7 @@
 .section-header h2 {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #1f2937;
+  color: var(--color-text-dark);
 }
 
 .activities-grid {
@@ -148,25 +174,25 @@
 
 .activity-card {
   padding: 1rem;
-  background-color: #f9fafb;
+  background-color: var(--color-background-light);
   border-radius: 0.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   cursor: pointer;
   transition: border-color 0.2s;
 }
 
 .activity-card:hover {
-  border-color: #93c5fd;
+  border-color: var(--color-primary-light);
 }
 
 .activity-card h3 {
   font-weight: 500;
-  color: #1f2937;
+  color: var(--color-text-dark);
 }
 
 .activity-card p {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-light);
 }
 
 /* Stats Grid */
@@ -179,10 +205,10 @@
 .stat-value {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #1f2937;
+  color: var(--color-text-dark);
 }
 
 .stat-label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-light);
 }
