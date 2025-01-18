@@ -1,0 +1,27 @@
+{
+  "name": "nwhacks2025",
+  "version": "1.0.0",
+  "description": "Nwhacks Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/src/app.js",
+    "server": "nodemon server/src/app.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanish10/Nwhacks2025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanish10/Nwhacks2025/issues"
+  },
+  "homepage": "https://github.com/kanish10/Nwhacks2025#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
+  }
+}
