@@ -8,7 +8,7 @@ const Card = ({ children, className = '' }) => (
 
 const DashboardLayout = () => {
 // CONSTANTS AND STATE
-  const User = "Aryan";
+  const username = "Aryan";
 
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedMood, setSelectedMood] = useState(null);
@@ -109,7 +109,7 @@ const DashboardLayout = () => {
         <div className="content-wrapper">
           {/* Header */}
           <div className="welcome-header">
-            <h2>Welcome back, {User}!</h2>
+            <h2>Welcome back, {username}!</h2>
             <p>How are you feeling today?</p>
           </div>
 
