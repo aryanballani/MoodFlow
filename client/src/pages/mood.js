@@ -157,8 +157,8 @@ const Mood = () => {
       // throw new Error('Not implemented');
       const age = localStorage.getItem('age') || '';
       const interests = localStorage.getItem('interests') || '';
-      const latitude = localStorage.getItem('latitude') || '52.52'; 
-      const longitude = localStorage.getItem('longitude') || '13.41';
+      const latitude = localStorage.getItem('latitude') || '49.2827'; 
+      const longitude = localStorage.getItem('longitude') || '-123.1207';
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
       setWeather(data.weather);
