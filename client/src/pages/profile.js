@@ -27,7 +27,7 @@ const Profile = () => {
         const fetchProfile = async () => {
             try {
                 const profileData = await userService.getProfile();
-                console.log(profileData);
+                // console.log(profileData);
 
                 // Calculate age from date of birth
                 const birthDate = moment(profileData.dateOfBirth, 'YYYY-MM-DD');
@@ -54,7 +54,7 @@ const Profile = () => {
                 // Get location using latitude and longitude (You can use a geocoding API here)
                 if (profileData.location) {
                     const locationData = await getLocationFromCoordinates(profileData.location[0], profileData.location[1]);
-                    console.log('Location:', locationData);
+                    // console.log('Location:', locationData);
                     setProfile(prev => ({ ...prev, location: locationData }));
                 }
             } catch (error) {
@@ -79,10 +79,12 @@ const Profile = () => {
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
+        console.log(file);
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result);
+                profile.photo = reader.result;
             };
             reader.readAsDataURL(file);
         }
