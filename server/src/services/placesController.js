@@ -1,0 +1,46 @@
+// server/src/controllers/placesController.js
+const axios = require('axios');
+
+const placesController = {
+  async getNearbyPlaces(req, res) {
+    try {
+      const { location, type } = req.query;
+
+      if (!location || !type) {
+        return res.status(400).json({ message: 'Please provide a location and place type.' });
+      }
+
+      // Use Google Geocoding API to convert location to coordinates
+      const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      const geocodeResponse = await axios.get(geocodingUrl);
+
+      if (geocodeResponse.data.status !== 'OK') {
+        return res.status(400).json({ message: 'Failed to get coordinates for the location.' });
+      }
+
+      const { lat, lng } = geocodeResponse.data.results[0].geometry.location;
+
+      // Use Google Places API to get nearby places
+      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=5000&type=${type}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      const placesResponse = await axios.get(placesUrl);
+
+      if (placesResponse.data.status !== 'OK') {
+        return res.status(400).json({ message: 'Failed to fetch nearby places.' });
+      }
+
+      // Map the response to return only place name, address, and Google Maps link
+      const places = placesResponse.data.results.map((place) => ({
+        name: place.name,
+        address: place.vicinity,
+        googleMapsLink: `https://www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`,
+      }));
+
+      res.json(places);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: 'An error occurred while fetching nearby places.' });
+    }
+  },
+};
+
+module.exports = placesController;
