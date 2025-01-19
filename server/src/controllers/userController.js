@@ -127,7 +127,55 @@ async updateProfile(req, res) {
     console.log(error);
     res.status(400).json({ message: error.message });
   }
+},
+
+async getProfile(req, res) {
+  try {
+    const authHeader = req.header('Authorization');
+    if (!authHeader) {
+      return res.status(401).json({ message: 'No token, authorization denied' });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: error.message });
+  }
+},
+
+// Update user location
+async updateLocation(req, res) {
+  try {
+    const authHeader = req.header('Authorization');
+    if (!authHeader) {
+      return res.status(401).json({ message: 'No token, authorization denied' });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const { latitude, longitude } = req.body;
+    user.location = { latitude, longitude };
+
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: error.message });
+  }
 }
+
 };
 
 module.exports = userController;

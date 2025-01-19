@@ -1,20 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera } from 'lucide-react';
 import '../styles/profile.css';
 import Sidebar from '../components/sidebar';
 import { userService } from '../services/api';
+import moment from 'moment';
+
 
 const Profile = () => {
     const navigate = useNavigate();
 
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState({
-        name: 'Sarah Johnson',
-        dob: '1990-04-15',
-        location: 'San Francisco, CA'
+        fullname: '',
+        dateOfBirth: '',
+        location: ''
     });
     const [imagePreview, setImagePreview] = useState(null);
+
+    useEffect(() => {
+        const fetchProfile = () => {
+            try {
+                const profileData = userService.getProfile();
+                console.log(profileData);
+                profileData.then((data) => {
+                    console.log(data);
+                    const convertDateToDDMMYYYY = (dateString) => {
+                        return moment(dateString, 'YYYY-MM-DD').format('DD-MM-YYYY');
+                    };
+                    data.dateOfBirth = convertDateToDDMMYYYY(data.dateOfBirth);
+                    console.log(data);
+                    setProfile({
+                        fullname: data.fullname,
+                        dateOfBirth: data.dateOfBirth,
+                        location: data.location || '' // Assuming location might be missing
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+    
+        fetchProfile();
+    }, []);
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
@@ -35,15 +64,15 @@ const Profile = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setIsEditing(false);
         // Here you would typically send the data to your backend
-        console.log('Profile updated:', profile);
         try {
-            const updatedProfile = await userService.updateProfile(profile);
-            setProfile(updatedProfile);
-            console.log('Profile updated:', updatedProfile);
+            const updatedProfile = userService.updateProfile(profile);
+            updatedProfile.then((data) => {
+                setProfile(data);
+            });
         } catch (error) {
             console.error('Error updating profile:', error);
         }
@@ -114,18 +143,7 @@ const Profile = () => {
                             <input
                                 type="text"
                                 name="name"
-                                value={profile.name}
-                                onChange={handleInputChange}
-                                disabled={!isEditing}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Date of Birth</label>
-                            <input
-                                type="date"
-                                name="dob"
-                                value={profile.dob}
+                                value={profile.fullname}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
