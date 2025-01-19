@@ -2,17 +2,23 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/'
+  baseURL: 'http://localhost:5001/'
 });
 
 // Add token to requests
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+    const token = localStorage.getItem('token');
+    
+    // Skip adding token for registration
+    if (token && !config.url.includes('/users/register')) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  
+    return config;
+  }, error => {
+    return Promise.reject(error);
+  });
+  
 
 export const userService = {
   async register(userData) {
@@ -22,7 +28,9 @@ export const userService = {
   },
 
   async login(credentials) {
+    console.log(credentials);
     const response = await api.post('/users/login', credentials);
+    console.log(response);
     localStorage.setItem('token', response.data.token);
     return response.data;
   },
