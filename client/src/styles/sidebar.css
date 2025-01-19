@@ -74,10 +74,10 @@
   left: 1rem;
   z-index: 60;
   padding: 0.5rem;
-  background-color: #155E95;
+  background-color: var(--color-background-light);
   border: none;
   border-radius: 0.5rem;
-  color: white;
+  color: var(--color-primary);
   cursor: pointer;
 }
 

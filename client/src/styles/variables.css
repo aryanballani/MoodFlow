@@ -35,7 +35,7 @@
   
   /* Borders and interactions */
   --color-border: #21262d;             /* Subtle border color */
-  --color-hover-background: #1f2a37;   /* Hover state - darker gray */
+  --color-hover-background: #f3f4f6;   /* Hover state - darker gray */
   --color-active-background: #2c3e50;  /* Active/selected state - medium blue-gray */
   
   /* Primary colors */
