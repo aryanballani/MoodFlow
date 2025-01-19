@@ -4,6 +4,8 @@ import { Camera } from 'lucide-react';
 import '../styles/profile.css';
 import Sidebar from '../components/sidebar';
 import { userService } from '../services/api';
+import moment from 'moment';
+
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -23,8 +25,13 @@ const Profile = () => {
                 console.log(profileData);
                 profileData.then((data) => {
                     console.log(data);
+                    const convertDateToDDMMYYYY = (dateString) => {
+                        return moment(dateString, 'YYYY-MM-DD').format('DD-MM-YYYY');
+                    };
+                    data.dateOfBirth = convertDateToDDMMYYYY(data.dateOfBirth);
+                    console.log(data);
                     setProfile({
-                        fullname: data,
+                        fullname: data.fullname,
                         dateOfBirth: data.dateOfBirth,
                         location: data.location || '' // Assuming location might be missing
                     });
@@ -125,17 +132,6 @@ const Profile = () => {
                                 type="text"
                                 name="name"
                                 value={profile.fullname}
-                                onChange={handleInputChange}
-                                disabled={!isEditing}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Date of Birth</label>
-                            <input
-                                type="date"
-                                name="dob"
-                                value={profile.dateOfBirth}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
