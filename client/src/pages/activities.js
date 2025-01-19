@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, Cloud, Sun, CloudRain, Wind, Award } from 'lucide-react';
-import '../styles/activities.css'; // Import the custom CSS file
+import '../styles/activities.css';
 import Sidebar from '../components/sidebar';
 
 const ActivityPage = () => {
@@ -35,10 +35,10 @@ const ActivityPage = () => {
 
   const getWeatherIcon = (weather) => {
     switch (weather) {
-      case 'sunny': return <Sun className="text-yellow-500" />;
-      case 'cloudy': return <Cloud className="text-gray-500" />;
-      case 'rainy': return <CloudRain className="text-blue-500" />;
-      default: return <Wind className="text-gray-400" />;
+      case 'sunny': return <Sun className="weather-icon sunny" />;
+      case 'cloudy': return <Cloud className="weather-icon cloudy" />;
+      case 'rainy': return <CloudRain className="weather-icon rainy" />;
+      default: return <Wind className="weather-icon" />;
     }
   };
 
@@ -51,40 +51,34 @@ const ActivityPage = () => {
 
   return (
     <div className="activity-page">
-         <Sidebar />
-      <div className="header">
-        <h1>Activity Log</h1>
-        <p>Track your daily activities and moods</p>
-      </div>
-
-      <div className="streak-counter">
-        <Award className="w-8 h-8 text-yellow-500" />
-        <div>
-          <h2>Current Streak</h2>
-          <p>{streak} days</p>
+      <Sidebar />
+      <div className="main-content">
+        <div className="header">
+          <h1>Activity Log</h1>
+          <p>Track your daily activities and moods</p>
         </div>
-      </div>
-
-      <div className="activity-timeline">
-        {activities.map((activity) => (
-          <div key={activity.id} className="activity-card">
-            <div className="card-header">
-              <div className="time">
-                <Calendar className="w-5 h-5 text-gray-500" />
-                <span>{formatTime(activity.date)}</span>
+        
+        <div className="activity-timeline">
+          {activities.map((activity) => (
+            <div key={activity.id} className="activity-card">
+              <div className="card-header">
+                <div className="time">
+                  <Calendar className="calendar-icon" />
+                  <span>{formatTime(activity.date)}</span>
+                </div>
+                <div className="mood-weather">
+                  <span>{activity.mood}</span>
+                  {getWeatherIcon(activity.weather)}
+                </div>
               </div>
-              <div className="mood-weather">
-                <span>{activity.mood}</span>
-                {getWeatherIcon(activity.weather)}
+              
+              <div className="activity-details">
+                <h3>{activity.activity}</h3>
+                <p>{activity.description}</p>
               </div>
             </div>
-            
-            <div className="activity-details">
-              <h3>{activity.activity}</h3>
-              <p>{activity.description}</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
