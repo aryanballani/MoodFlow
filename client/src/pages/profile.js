@@ -24,7 +24,7 @@ const Profile = () => {
                 profileData.then((data) => {
                     console.log(data);
                     setProfile({
-                        fullname: data.fullname,
+                        fullname: data,
                         dateOfBirth: data.dateOfBirth,
                         location: data.location || '' // Assuming location might be missing
                     });
@@ -57,13 +57,15 @@ const Profile = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setIsEditing(false);
         // Here you would typically send the data to your backend
         try {
-            const updatedProfile = await userService.updateProfile(profile);
-            setProfile(updatedProfile);
+            const updatedProfile = userService.updateProfile(profile);
+            updatedProfile.then((data) => {
+                setProfile(data);
+            });
         } catch (error) {
             console.error('Error updating profile:', error);
         }
