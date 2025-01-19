@@ -56,7 +56,7 @@ const placesController = {
       }
 
       // Use Google Places API to get nearby places based on latitude and longitude
-      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=${type}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=300&type=${type}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
       const placesResponse = await axios.get(placesUrl);
 
       if (placesResponse.data.status !== 'OK') {

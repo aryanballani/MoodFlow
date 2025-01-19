@@ -163,7 +163,7 @@ router.get('/activity-suggestions', async (req, res) => {
     Do not give more than 6 activities in any circumstances.`;
 
     // Call the LLM API
-    const llmResponse = await axios.post('https://f923-206-87-113-208.ngrok-free.app/api/generate', {
+    const llmResponse = await axios.post('https://7c38-206-87-113-208.ngrok-free.app/api/generate', {
       model: 'llama3.2:3b',
       prompt: prompt,
       stream: false,
