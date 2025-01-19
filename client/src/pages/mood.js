@@ -38,101 +38,101 @@ const Mood = () => {
     'Happy': {
       message: "Wonderful to see you're feeling happy! Let's make the most of this positive energy!",
       activities: [
-        { title: "Start a Creative Project", description: "Channel your positive energy into something creative - paint, write, or craft!" },
-        { title: "Spread the Joy", description: "Call a friend or family member to share your good mood and catch up" },
-        { title: "Outdoor Adventure", description: "Take advantage of your good mood with a nature walk or outdoor activity" }
+        { title: "Start a Creative Project", description: "Channel your positive energy into something creative - paint, write, or craft!", venue_type: "amusement_park" },
+        { title: "Spread the Joy", description: "Call a friend or family member to share your good mood and catch up", venue_type: "cafe" },
+        { title: "Outdoor Adventure", description: "Take advantage of your good mood with a nature walk or outdoor activity", venue_type: "park" }
       ]
     },
     'Calm': {
       message: "A peaceful state of mind is perfect for mindful activities.",
       activities: [
-        { title: "Meditation Session", description: "Deepen your calm with a guided meditation or breathing exercise" },
-        { title: "Gentle Yoga", description: "Practice some relaxing yoga poses to maintain your tranquility" },
-        { title: "Journal Writing", description: "Reflect on your thoughts and feelings through peaceful journaling" }
+        { title: "Meditation Session", description: "Deepen your calm with a guided meditation or breathing exercise", venue_type: "spa" },
+        { title: "Gentle Yoga", description: "Practice some relaxing yoga poses to maintain your tranquility", venue_type: "park" },
+        { title: "Journal Writing", description: "Reflect on your thoughts and feelings through peaceful journaling", venue_type: "library" }
       ]
     },
     'Energetic': {
       message: "Great to see you're feeling energetic! Let's put that energy to good use!",
       activities: [
-        { title: "High-Intensity Workout", description: "Channel your energy into an intense exercise session" },
-        { title: "Dance Party", description: "Put on your favorite upbeat music and dance it out" },
-        { title: "Productive Task Sprint", description: "Use this energy burst to tackle your to-do list" }
+        { title: "High-Intensity Workout", description: "Channel your energy into an intense exercise session", venue_type: "gym" },
+        { title: "Dance Party", description: "Put on your favorite upbeat music and dance it out", venue_type: "stadium" },
+        { title: "Productive Task Sprint", description: "Use this energy burst to tackle your to-do list", venue_type: "dance_studio" }
       ]
     },
     'Tired': {
       message: "It's okay to feel tired. Let's focus on gentle, rejuvenating activities.",
       activities: [
-        { title: "Power Nap", description: "Take a short 20-minute nap to recharge your energy" },
-        { title: "Relaxing Bath", description: "Draw a warm bath with some calming essential oils" },
-        { title: "Light Reading", description: "Pick up a book and read in a cozy corner" }
+        { title: "Power Nap", description: "Take a short 20-minute nap to recharge your energy", venue_type: "home" },
+        { title: "Relaxing Bath", description: "Draw a warm bath with some calming essential oils", venue_type: "spa" },
+        { title: "Light Reading", description: "Pick up a book and read in a cozy corner", venue_type: "book_store" }
       ]
     },
     'Anxious': {
       message: "Feeling anxious? Let's focus on grounding and soothing activities.",
       activities: [
-        { title: "Breathing Exercises", description: "Try deep breathing to calm your nervous system" },
-        { title: "Grounding Walk", description: "Take a walk and focus on the sights and sounds around you" },
-        { title: "Soothing Music", description: "Listen to relaxing or instrumental music to ease your mind" }
+        { title: "Breathing Exercises", description: "Try deep breathing to calm your nervous system", venue_type: "park" },
+        { title: "Grounding Walk", description: "Take a walk and focus on the sights and sounds around you", venue_type: "beach" },
+        { title: "Soothing Music", description: "Listen to relaxing or instrumental music to ease your mind", venue_type: "church" }
       ]
     },
     'Sad': {
       message: "It's okay to feel sad. Let's focus on activities that bring comfort and healing.",
       activities: [
-        { title: "Watch a Comforting Movie", description: "Choose a feel-good movie or show to lift your spirits" },
-        { title: "Reach Out to a Friend", description: "Talk to someone you trust about how you're feeling" },
-        { title: "Art Therapy", description: "Express your emotions through drawing, painting, or writing" }
+        { title: "Watch a Comforting Movie", description: "Choose a feel-good movie or show to lift your spirits", venue_type: "movie_theater" },
+        { title: "Reach Out to a Friend", description: "Talk to someone you trust about how you're feeling", venue_type: "cafe" },
+        { title: "Art Therapy", description: "Express your emotions through drawing, painting, or writing", venue_type: "museum" }
       ]
     },
     'Focused': {
       message: "You're in the zone! Let's make the most of this focused energy.",
       activities: [
-        { title: "Deep Work Session", description: "Tackle a challenging task with your full concentration" },
-        { title: "Organize Your Space", description: "Declutter your workspace for maximum productivity" },
-        { title: "Plan Your Week", description: "Outline your tasks and goals for the upcoming week" }
+        { title: "Deep Work Session", description: "Tackle a challenging task with your full concentration", venue_type: "library" },
+        { title: "Organize Your Space", description: "Declutter your workspace for maximum productivity", venue_type: "office" },
+        { title: "Plan Your Week", description: "Outline your tasks and goals for the upcoming week", venue_type: "university" }
       ]
     },
     'Overwhelmed': {
       message: "Feeling overwhelmed? Let's break things into manageable steps.",
       activities: [
-        { title: "Make a Priority List", description: "Write down tasks in order of importance" },
-        { title: "Take a Break", description: "Step away for a few minutes to recharge" },
-        { title: "Ask for Help", description: "Reach out to a friend or colleague for support" }
+        { title: "Make a Priority List", description: "Write down tasks in order of importance", venue_type: "park" },
+        { title: "Take a Break", description: "Step away for a few minutes to recharge", venue_type: "spa" },
+        { title: "Ask for Help", description: "Reach out to a friend or colleague for support", venue_type: "home" }
       ]
     },
     'Excited': {
       message: "You're feeling excited! Let's channel that enthusiasm.",
       activities: [
-        { title: "Plan a Celebration", description: "Organize a small event to celebrate what's exciting you" },
-        { title: "Share Your Excitement", description: "Tell someone about what's making you so happy" },
-        { title: "Document the Moment", description: "Write about your excitement in a journal or take pictures" }
+        { title: "Plan a Celebration", description: "Organize a small event to celebrate what's exciting you", venue_type: "stadium" },
+        { title: "Share Your Excitement", description: "Tell someone about what's making you so happy", venue_type: "amusement_park" },
+        { title: "Document the Moment", description: "Write about your excitement in a journal or take pictures", venue_type: "restaurant" }
       ]
     },
     'Frustrated': {
       message: "Frustration happens. Let's find ways to release that tension.",
       activities: [
-        { title: "Physical Activity", description: "Go for a run or do a workout to release pent-up energy" },
-        { title: "Write it Out", description: "Journal about what's bothering you to clear your mind" },
-        { title: "Take a Step Back", description: "Pause and return to the task later with a fresh perspective" }
+        { title: "Physical Activity", description: "Go for a run or do a workout to release pent-up energy", venue_type: "gym" },
+        { title: "Write it Out", description: "Journal about what's bothering you to clear your mind", venue_type: "park" },
+        { title: "Take a Step Back", description: "Pause and return to the task later with a fresh perspective", venue_type: "yoga_studio" }
       ]
     },
     'Hopeful': {
       message: "Feeling hopeful? Let's nurture that positive outlook.",
       activities: [
-        { title: "Set a Goal", description: "Write down a goal and steps to achieve it" },
-        { title: "Vision Board", description: "Create a vision board to visualize your dreams" },
-        { title: "Volunteer", description: "Channel your hope into helping others in need" }
+        { title: "Set a Goal", description: "Write down a goal and steps to achieve it", venue_type: "church" },
+        { title: "Vision Board", description: "Create a vision board to visualize your dreams", venue_type: "park" },
+        { title: "Volunteer", description: "Channel your hope into helping others in need", venue_type: "community_center" }    
       ]
     },
     'Reflective': {
       message: "You're in a reflective mood. Let's make time for introspection.",
       activities: [
-        { title: "Gratitude List", description: "Write down things you're grateful for today" },
-        { title: "Reconnect with Nature", description: "Spend some time outdoors, appreciating the world around you" },
-        { title: "Read a Thoughtful Book", description: "Choose a book that encourages introspection" }
+        { title: "Gratitude List", description: "Write down things you're grateful for today", venue_type: "park" },
+        { title: "Reconnect with Nature", description: "Spend some time outdoors, appreciating the world around you", venue_type: "library" },
+        { title: "Read a Thoughtful Book", description: "Choose a book that encourages introspection", venue_type: "museum" }
       ]
     }
   };
-
+  
   const moods = [
     { emoji: '😊', label: 'Happy', className: 'mood-card-happy' },
     { emoji: '😌', label: 'Calm', className: 'mood-card-calm' },
@@ -161,8 +161,8 @@ const Mood = () => {
       const longitude = localStorage.getItem('longitude') || '-123.1207';
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
-      // console.log(data);
       localStorage.setItem("weather", data.weather);
+
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
         const suggestedActivities = data.suggestions.map(suggestion => ({
@@ -181,7 +181,19 @@ const Mood = () => {
     } catch (error) {
       console.error('Error fetching activities:', error);
       // Fallback to default activities if request fails
-      setActivities(moodData[mood].activities);
+      console.log(moodData[mood].activities);
+      const suggestedActivities = moodData[mood].activities.map(activity => ({
+        title: activity.title,
+        description: activity.description,
+        venue_type: activity.venue_type
+      }));
+      setSuggestedActivities(suggestedActivities);
+      const formattedActivities = moodData[mood].activities.map(activity => ({
+        title: activity.title || activity,
+        description: activity.description || activity,
+      }));
+      // console.log(data.places);
+      setActivities(formattedActivities);
     } finally {
       setIsLoading(false);
     }
@@ -210,6 +222,7 @@ const Mood = () => {
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
     console.log('Locked activity:', selectedActivity.title);
     try {
+      console.log(suggestedActivities);
       const generalized_venue_activity = suggestedActivities.find(activity => activity.title === selectedActivity.title).venue_type;
       generalized_venue_activity.toLowerCase();
       console.log('Generalized venue activity:', generalized_venue_activity);
