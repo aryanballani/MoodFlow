@@ -14,7 +14,6 @@ const Mood = () => {
   const [isActivityLocked, setIsActivityLocked] = useState(() => {
     return JSON.parse(localStorage.getItem('lockedActivity')) || false;
   });
-  const [weather, setWeather] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activities, setActivities] = useState([]);
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
@@ -163,7 +162,7 @@ const Mood = () => {
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
       // console.log(data);
-      setWeather(data.weather);
+      localStorage.setItem("weather", data.weather);
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
         const suggestedActivities = data.suggestions.map(suggestion => ({
@@ -209,11 +208,11 @@ const Mood = () => {
     localStorage.setItem('currentMood', selectedMood);
 
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
-    // console.log('Locked activity:', selectedActivity.title);
+    console.log('Locked activity:', selectedActivity.title);
     try {
       const generalized_venue_activity = suggestedActivities.find(activity => activity.title === selectedActivity.title).venue_type;
       generalized_venue_activity.toLowerCase();
-      // console.log('Generalized venue activity:', generalized_venue_activity);
+      console.log('Generalized venue activity:', generalized_venue_activity);
       const response = await recordService.getNearbyPlaces(latitude, longitude, generalized_venue_activity);
       setNearbyPlaces(response.places);
     } catch (error) {
@@ -242,7 +241,7 @@ const Mood = () => {
     try {
       const recordData = {
         mood: localStorage.getItem('currentMood'),
-        weather: weather,
+        weather: localStorage.getItem('weather'),
         activity: selectedActivity.title,
         status: "Completed"
       }
@@ -278,7 +277,7 @@ const Mood = () => {
     try {
       const recordData = {
         mood: localStorage.getItem('currentMood'),
-        weather: weather,
+        weather: localStorage.getItem('weather'),
         activity: selectedActivity.title,
         status: "Completed"
       }
