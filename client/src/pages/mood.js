@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import Sidebar from '../components/sidebar';
 import '../styles/mood.css';
-import { recordService, userService } from '../services/api';
+import { recordService } from '../services/api';
 
 
 const Mood = () => {
@@ -190,7 +190,16 @@ const Mood = () => {
   };
 
   const handleLockActivity = () => {
+    const latitude = localStorage.getItem('latitude') || '52.52'; 
+    const longitude = localStorage.getItem('longitude') || '13.41';
+
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
+    console.log(selectedActivity);
+    console.log(latitude, longitude);
+    const response = recordService.getNearbyPlaces(latitude, longitude, "Park");
+    response.then(data => {
+      console.log(data);
+    });
     setIsActivityLocked(true);
   };
 
