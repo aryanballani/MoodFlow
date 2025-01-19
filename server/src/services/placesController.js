@@ -52,14 +52,19 @@ const placesController = {
       const { latitude, longitude, type } = req.query;
 
       if (!latitude || !longitude || !type) {
+        // console.log('Latitude:', latitude);
+        // console.log('Longitude:', longitude);
         return res.status(400).json({ message: 'Please provide latitude, longitude, and place type.' });
       }
 
+      console.log('Type:', type);
       // Use Google Places API to get nearby places based on latitude and longitude
-      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=50000&type=${type}&rankby=prominence&key=${process.env.GOOGLE_API_KEY}`;
+      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=${type}&rankby=prominence&key=${process.env.GOOGLE_API_KEY}`;
       const placesResponse = await axios.get(placesUrl);
 
+      console.log('Places response:', placesResponse.data);
       if (placesResponse.data.status !== 'OK') {
+        console.log('Places response:', placesResponse.data);
         return res.status(400).json({ message: 'Failed to fetch nearby places.' });
       }
 

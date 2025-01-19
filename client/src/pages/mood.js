@@ -196,8 +196,9 @@ const Mood = () => {
   );
 
   const handleLockActivity = async () => {
-    const latitude = localStorage.getItem('latitude') || '52.52'; 
-    const longitude = localStorage.getItem('longitude') || '13.41';
+    const latitude = localStorage.getItem('latitude'); 
+    const longitude = localStorage.getItem('longitude');
+    localStorage.setItem('currentMood', selectedMood);
 
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
     console.log('Locked activity:', selectedActivity.title);
@@ -229,7 +230,7 @@ const Mood = () => {
 
     try {
       const recordData = {
-        mood: selectedMood,
+        mood: localStorage.getItem('currentMood'),
         weather: weather,
         activity: selectedActivity.title,
         status: "Completed"
@@ -265,7 +266,7 @@ const Mood = () => {
 
     try {
       const recordData = {
-        mood: selectedMood,
+        mood: localStorage.getItem('currentMood'),
         weather: weather,
         activity: selectedActivity.title,
         status: "Completed"
