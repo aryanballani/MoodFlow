@@ -3,11 +3,7 @@ import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip } 
 import Sidebar from '../components/sidebar';
 import '../styles/dashboard.css';
 import Card from '../components/card';
-<<<<<<< Updated upstream
-import { userService } from '../services/api';
-=======
 import { recordService, userService } from '../services/api';
->>>>>>> Stashed changes
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -17,13 +13,8 @@ const Dashboard = () => {
   });
   const [moodHistory, setMoodHistory] = useState([]);
   const [activities, setActivities] = useState([]);
-<<<<<<< Updated upstream
-  const [location, setLocation] = useState(null);  // Store the location data
-  const [locationPermission, setLocationPermission] = useState(null); // Store location permission status
-=======
   const [recordDatam, setRecordData] = useState({});
 
->>>>>>> Stashed changes
 
   useEffect(() => {
     // Load data from localStorage
