@@ -83,12 +83,10 @@ export const recordService = {
 
   async getNearbyPlaces(latitude, longitude, type) {
     const response = await api.get('/places', {
-      params: { latitude, 
-        longitude, 
-        type
-      }
+      params: { latitude, longitude, type } // Single type parameter
     });
+
     return response.data;
-  }
+}
 
 };

@@ -51,21 +51,9 @@ const placesController = {
     try {
       const { latitude, longitude, type } = req.query;
 
-      // Ensure that latitude, longitude, and type are provided
       if (!latitude || !longitude || !type) {
         return res.status(400).json({ message: 'Please provide latitude, longitude, and place type.' });
       }
-
-      // Use Google Geocoding API (reverse geocoding) to convert latitude and longitude to a location
-      const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
-      const geocodeResponse = await axios.get(geocodingUrl);
-
-      if (geocodeResponse.data.status !== 'OK') {
-        return res.status(400).json({ message: 'Failed to get location from coordinates.' });
-      }
-
-      // Get the formatted address of the location
-      const location = geocodeResponse.data.results[0].formatted_address;
 
       // Use Google Places API to get nearby places based on latitude and longitude
       const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=${type}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
@@ -82,11 +70,7 @@ const placesController = {
         googleMapsLink: `https://www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`,
       }));
 
-      // Include the location information as part of the response
-      res.json({
-        location,
-        places,
-      });
+      res.json({ places });
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: 'An error occurred while fetching nearby places.' });

@@ -16,6 +16,9 @@ const Mood = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [activities, setActivities] = useState([]);
+  const handleActivitySelect = (activity) => {
+    setSelectedActivity(activity); // This will select the clicked activity
+  };
 
   useEffect(() => {
     // Check for locked activity on component mount
@@ -185,23 +188,23 @@ const Mood = () => {
     </div>
   );
 
-  const handleActivitySelect = (activity) => {
-    setSelectedActivity(activity);
-  };
-
-  const handleLockActivity = () => {
+  const handleLockActivity = async () => {
     const latitude = localStorage.getItem('latitude') || '52.52'; 
     const longitude = localStorage.getItem('longitude') || '13.41';
 
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
     console.log(selectedActivity);
     console.log(latitude, longitude);
-    const response = recordService.getNearbyPlaces(latitude, longitude, "Park");
-    response.then(data => {
-      console.log(data);
-    });
+    
+    try {
+      const response = await recordService.getNearbyPlaces(latitude, longitude, "Park");
+      console.log(response); // Handle the response as required
+    } catch (error) {
+      console.error('Error fetching places:', error);
+    }
+    
     setIsActivityLocked(true);
-  };
+};
 
   const handleMarkComplete = () => {
     const newMoodEntry = {
