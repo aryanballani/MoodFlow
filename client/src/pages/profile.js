@@ -17,15 +17,19 @@ const Profile = () => {
     const [imagePreview, setImagePreview] = useState(null);
 
     useEffect(() => {
-        const fetchProfile = async () => {
+        const fetchProfile = () => {
             try {
-                const profileData = await userService.getProfile();
+                const profileData = userService.getProfile();
                 console.log(profileData);
-                await setProfile({
-                    fullname: profileData.fullname,
-                    dateOfBirth: profileData.dateOfBirth,
-                    location: profileData.location || '' // Assuming location might be missing
+                profileData.then((data) => {
+                    console.log(data);
+                    setProfile({
+                        fullname: data.fullname,
+                        dateOfBirth: data.dateOfBirth,
+                        location: data.location || '' // Assuming location might be missing
+                    });
                 });
+                
             } catch (error) {
                 console.error('Error fetching profile:', error);
             }
@@ -57,11 +61,9 @@ const Profile = () => {
         e.preventDefault();
         setIsEditing(false);
         // Here you would typically send the data to your backend
-        console.log('Profile updated:', profile);
         try {
             const updatedProfile = await userService.updateProfile(profile);
             setProfile(updatedProfile);
-            console.log('Profile updated:', updatedProfile);
         } catch (error) {
             console.error('Error updating profile:', error);
         }
@@ -120,7 +122,7 @@ const Profile = () => {
                             <input
                                 type="text"
                                 name="name"
-                                value={profile.name}
+                                value={profile.fullname}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
@@ -131,7 +133,7 @@ const Profile = () => {
                             <input
                                 type="date"
                                 name="dob"
-                                value={profile.dob}
+                                value={profile.dateOfBirth}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
