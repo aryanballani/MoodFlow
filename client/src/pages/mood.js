@@ -166,12 +166,6 @@ const Mood = () => {
       localStorage.setItem("weather", data.weather);
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
-        const suggestedActivities = data.suggestions.map(suggestion => ({
-          title: suggestion.title || suggestion,
-          description: suggestion.description || suggestion,
-          venue_type: suggestion.Generalized_venue || 'Location'
-        }));
-        setSuggestedActivities(suggestedActivities);
         const formattedActivities = data.suggestions.map(suggestion => ({
           title: suggestion.title || suggestion,
           description: suggestion.description || suggestion,
