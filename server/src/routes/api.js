@@ -185,7 +185,7 @@ router.get('/activity-suggestions', async (req, res) => {
     const places = placesMatch ? placesMatch[1].split(',').map(place => place.replace(/"/g, '').trim()) : [];
 
     // Add more places if they are missing
-    const expectedPlaces = ["Home", "Library", "Studio", "Place 4", "Place 5"];
+    const expectedPlaces = ["Home", "Library", "Studio", "Coffee Shop", "Restaurant", "Swimming Pool", "Gym"];
     const finalPlaces = places.length === 0 ? expectedPlaces : places;
 
     // Return both the original and formatted responses

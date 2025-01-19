@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: ''
+    default: './buriburi.jpeg'
   },
   createdOn: {
     type: Date,

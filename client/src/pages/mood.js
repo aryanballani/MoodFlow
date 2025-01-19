@@ -168,6 +168,7 @@ const Mood = () => {
           title: suggestion.title || suggestion,
           description: suggestion.description || suggestion,
         }));
+        console.log(data.places);
         setActivities(formattedActivities);
       }
     } catch (error) {

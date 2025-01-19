@@ -42,15 +42,10 @@ const Profile = () => {
                     dateOfBirth: profileData.dateOfBirth,
                     email: profileData.email,
                     location: profileData.location || '',
-                    photo: profileData.photo || '', // Assuming photo URL is stored in the profile
                     latitude: profileData.latitude,
                     longitude: profileData.longitude
                 });
 
-                // Set profile image preview if any
-                if (profileData.photo) {
-                    setImagePreview(profileData.photo);
-                }
 
                 // Get location using latitude and longitude (You can use a geocoding API here)
                 if (profileData.location) {
