@@ -56,7 +56,7 @@ const placesController = {
       }
 
       // Use Google Places API to get nearby places based on latitude and longitude
-      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=300&type=${type}&key=${process.env.GOOGLE_API_KEY}`;
+      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=50000&type=${type}&rankby=prominence&key=${process.env.GOOGLE_API_KEY}`;
       const placesResponse = await axios.get(placesUrl);
 
       if (placesResponse.data.status !== 'OK') {
@@ -64,11 +64,13 @@ const placesController = {
       }
 
       // Map the response to return only place name, address, and Google Maps link
-      const places = placesResponse.data.results.map((place) => ({
-        name: place.name,
-        address: place.vicinity,
-        googleMapsLink: `https://www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`,
-      }));
+      const places = placesResponse.data.results
+        .slice(0, 10)  // Limit the results to the top 5 most relevant places
+        .map((place) => ({
+          name: place.name,
+          address: place.vicinity,
+          googleMapsLink: `https://www.google.com/maps/search/?api=1&query=${place.geometry.location.lat},${place.geometry.location.lng}`,
+        }));
 
       res.json({ places });
     } catch (error) {

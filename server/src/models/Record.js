@@ -26,10 +26,6 @@ const recordSchema = new mongoose.Schema({
       required: true,
       default: 'InProgress'
     },
-    moodImproved: {
-      type: Boolean,  // Using Boolean instead of String for Yes/No
-      required: false
-    },
     weather: {
       type: String,
       required: true

@@ -7,7 +7,7 @@ const userController = {
   // Register new user
   async register(req, res) {
     try {
-      console.log(req.body);
+      // console.log(req.body);
       const { username, email, password, dateOfBirth, fullName, interests, profileImage} = req.body;
       // Check if user exists
       const userExists = await User.findOne({ $or: [{ email }, { username }] });
@@ -50,10 +50,10 @@ const userController = {
   async login(req, res) {
     try {
       const { usernameOrEmail, password } = req.body;
-      console.log(usernameOrEmail);
+      // console.log(usernameOrEmail);
       // Find user
       const user = await User.findOne({ email: usernameOrEmail }).select('+password');
-      console.log(user);
+      // console.log(user);
       if (!user) {
         console.log('User not found')
         return res.status(401).json({ message: 'Invalid credentials' });
@@ -111,7 +111,7 @@ async updateProfile(req, res) {
 
     const token = authHeader.replace('Bearer ', '');
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded.id);
+    // console.log(decoded.id);
     const user = await User.findById(decoded.id).select('-password');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -170,7 +170,7 @@ async updateLocation(req, res) {
     user.location = [ latitude, longitude ];
 
     await user.save();
-    console.log(user);
+    // console.log(user);
     res.json(user);
   } catch (error) {
     console.log(error);
