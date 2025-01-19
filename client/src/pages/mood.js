@@ -151,18 +151,7 @@ const Mood = () => {
       const interests = localStorage.getItem('interests') || '';
       const latitude = localStorage.getItem('latitude') || '52.52'; 
       const longitude = localStorage.getItem('longitude') || '13.41';
-
-      const prompt = `The current weather is . Suggest some activities I can do based on this weather. Each activity should be formatted as follows:
-    {
-      title: "3 words max for the title", 
-      description: "A short description of the activity, max 1 line"
-    }
-    After suggesting 5 activities, provide a list of places where these activities can take place. Each place should be a one-word description, without any explanation, listed in a simple array, like this: ["place1", "place2", "place3", "place 4", "place 5"]. 
-    Provide 5 activity suggestions and places, do not print anything else, strictly stick to the format.`;
-
-
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests);
-      console.log(response);
       const data = await response;
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
@@ -345,14 +334,24 @@ const Mood = () => {
               </h2>
               <p className="mood-message">{moodData[selectedMood].message}</p>
             </div>
-
+    
             {isLoading ? (
               <LoadingScreen />
             ) : (
               <div className="activities-section">
-                <h3 className="activities-title">
-                  Suggested Activities
-                </h3>
+                <div className="activities-header">
+                  <h3 className="activities-title">
+                    Suggested Activities
+                  </h3>
+                  {!selectedActivity && (
+                    <button 
+                      className="mood-card regenerate-button"
+                      onClick={() => fetchActivities(selectedMood)}
+                    >
+                      Regenerate Activities
+                    </button>
+                  )}
+                </div>
                 
                 <div className="activities-container">
                   <div className="mood-grid">
@@ -370,7 +369,7 @@ const Mood = () => {
                     ))}
                   </div>
                 </div>
-
+    
                 {selectedActivity && (
                   <div className="lock-button-container">
                     <button 
