@@ -45,17 +45,20 @@ const userController = {
   // Login user
   async login(req, res) {
     try {
-      const { email, password } = req.body;
-      
+      const { usernameOrEmail, password } = req.body;
+      console.log(usernameOrEmail);
       // Find user
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email: usernameOrEmail }).select('+password');
+      console.log(user);
       if (!user) {
+        console.log('User not found')
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 
       // Check password
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
+        console.log('Password incorrect')
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 
@@ -71,6 +74,7 @@ const userController = {
         token
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: error.message });
     }
   },
