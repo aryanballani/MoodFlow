@@ -213,3 +213,59 @@
   font-size: 0.875rem;
   color: var(--color-text-light);
 }
+
+/* Add these to your existing dashboard.css */
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-card {
+  padding: 1.5rem;
+}
+
+.chart-card h3 {
+  color: #155E95;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.recent-activities {
+  margin-bottom: 1.5rem;
+}
+
+.recent-activities h3 {
+  color: #155E95;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: #f8f9ff;
+  border-radius: 0.5rem;
+}
+
+.activity-name {
+  color: #155E95;
+  font-weight: 500;
+}
+
+.activity-date {
+  color: #6A80B9;
+  font-size: 0.875rem;
+}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/dashboard';
 import Profile from './pages/profile';
+import Mood from './pages/mood';
 
 const App = () => {
   return (
@@ -10,6 +11,8 @@ const App = () => {
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/mood" element={<Mood />} />
+        {/* <Route path="/activities" element={<Activities />} /> */}
       </Routes>
     </Router>
   );

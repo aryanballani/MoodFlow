@@ -11,7 +11,7 @@ const Sidebar = () => {
   const sidebarItems = [
     { id: 'dashboard', icon: BarChart, label: 'Dashboard', path: '/dashboard' },
     { id: 'activities', icon: Activity, label: 'Activities', path: '/activities' },
-    { id: 'calendar', icon: Calendar, label: 'Calendar', path: '/calendar' },
+    { id: 'mood', icon: Calendar, label: 'Mood', path: '/mood' },
     { id: 'profile', icon: User, label: 'Profile', path: '/profile' },
     { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' }
   ];

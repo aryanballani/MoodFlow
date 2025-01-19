@@ -1,173 +1,128 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import Sidebar from '../components/sidebar';
-import { Calendar, Activity, BarChart, Settings, User } from 'lucide-react';
-import '../styles/Dashboard.css';
+import '../styles/dashboard.css';
 
 const Card = ({ children, className = '' }) => (
   <div className={`card ${className}`}>{children}</div>
 );
 
-const DashboardLayout = () => {
-// CONSTANTS AND STATE
-  const username = "Aryan";
+const Dashboard = () => {
+  const [stats, setStats] = useState({
+    streak: 0,
+    weeklyActivities: 0,
+    moodImprovement: 0
+  });
 
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const navigate = useNavigate();
+  const [moodHistory, setMoodHistory] = useState([]);
+  const [activities, setActivities] = useState([]);
 
-  const handleNavigation = (id) => {
-    setActiveTab(id);
-    if (id === 'profile') {
-      navigate('/profile');
-    }
-  };
+  useEffect(() => {
+    // Load data from localStorage
+    const savedMoodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+    const savedActivities = JSON.parse(localStorage.getItem('activities')) || [];
+    const savedStats = JSON.parse(localStorage.getItem('stats')) || {
+      streak: 7,
+      weeklyActivities: 15,
+      moodImprovement: 85
+    };
 
-  const [selectedMood, setSelectedMood] = useState(null);
-  const [completedActivities, setCompletedActivities] = useState([]);
-  const [streak, setStreak] = useState(0);
-  const [moodPercentage, setMoodPercentage] = useState(0);
+    setMoodHistory(savedMoodHistory);
+    setActivities(savedActivities);
+    setStats(savedStats);
+  }, []);
 
-  const sidebarItems = [
-    { id: 'dashboard', icon: BarChart, label: 'Dashboard' },
-    { id: 'activities', icon: Activity, label: 'Activities' },
-    { id: 'calendar', icon: Calendar, label: 'Calendar' },
-    { id: 'profile', icon: User, label: 'Profile' },
-    { id: 'settings', icon: Settings, label: 'Settings' }
+  // Prepare data for mood distribution chart
+  const moodDistribution = moodHistory.reduce((acc, entry) => {
+    acc[entry.mood] = (acc[entry.mood] || 0) + 1;
+    return acc;
+  }, {});
+
+  const moodChartData = Object.entries(moodDistribution).map(([mood, count]) => ({
+    mood,
+    count
+  }));
+
+  // Prepare data for weekly activity trend
+  const activityTrend = [
+    { day: 'Mon', activities: 4 },
+    { day: 'Tue', activities: 6 },
+    { day: 'Wed', activities: 3 },
+    { day: 'Thu', activities: 5 },
+    { day: 'Fri', activities: 7 },
+    { day: 'Sat', activities: 4 },
+    { day: 'Sun', activities: 6 }
   ];
 
-  const moodCards = [
-    { emoji: '😊', label: 'Happy', className: 'mood-card-happy' },
-    { emoji: '😌', label: 'Calm', className: 'mood-card-calm' },
-    { emoji: '⚡', label: 'Energetic', className: 'mood-card-energetic' },
-    { emoji: '😴', label: 'Tired', className: 'mood-card-tired' }
-  ];
-
-  const activitySuggestions = {
-    Happy: ['Morning Yoga', 'Dance Party', 'Read a Book'],
-    Calm: ['Meditation', 'Nature Walk', 'Breathing Exercises'],
-    Energetic: ['HIIT Workout', 'Cycling', 'Jogging'],
-    Tired: ['Power Nap', 'Gentle Yoga', 'Stretching'],
-  };
-
-
-// Handle mood selection
-   const handleMoodSelect = (mood) => {
-    setSelectedMood(mood);
-  };
-
-// Handle activity completion
-  const handleActivityComplete = (activity) => {
-    const currentDate = new Date(); // Get the current date when activity is completed
-    const newActivity = { name: activity, date: currentDate }; // Create activity object with date
-
-    // Update completed activities with the new activity
-    setCompletedActivities([...completedActivities, newActivity]);
-    updateStreak(currentDate); // Pass the current date to streak function
-    updateMoodPercentage(); // Update mood percentage
-  };
-
-  // Update the streak (simplified logic, could be extended)
-  const updateStreak = (currentDate) => {
-    if (completedActivities.length === 0) {
-      setStreak(1); // If it's the first activity, set streak to 1
-      return;
-    }
-
-    const lastCompleted = completedActivities[completedActivities.length - 1];
-    const lastCompletionDate = new Date(lastCompleted.date);
-
-    // Check if the activity was completed yesterday
-    const diff = Math.floor((currentDate - lastCompletionDate) / (1000 * 60 * 60 * 24)); // days difference
-    if (diff === 1) {
-      setStreak(streak + 1); // Increase streak if activity was completed yesterday
-    } else {
-      setStreak(1); // Reset streak if more than 1 day has passed
-    }
-  };
-
-  // Calculate mood improvement percentage (simplified logic)
-  const updateMoodPercentage = () => {
-    // Example: Assume that each completed activity improves mood by 10%
-    const moodIncrease = completedActivities.length * 10;
-    setMoodPercentage(Math.min(moodIncrease, 100)); // Cap at 100%
-  };
-
-
-  // MAIN DISPLAY
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <Sidebar />
-
-      {/* Main Content */}
+      
       <div className="main-content">
         <div className="content-wrapper">
           {/* Header */}
           <div className="welcome-header">
-            <h2>Welcome back, {username}!</h2>
-            <p>How are you feeling today?</p>
+            <h2>Dashboard Overview</h2>
+            <p>Your wellness statistics and trends</p>
           </div>
 
-          {/* Mood Selection */}
-          <div className="mood-grid">
-            {moodCards.map(({ emoji, label, className }) => (
-              <button
-                key={label}
-                className={`mood-card ${className}`}
-                onClick={() => handleMoodSelect(label)}
-              >
-                <div className="mood-emoji">{emoji}</div>
-                <div className="mood-label">{label}</div>
-              </button>
-            ))}
-          </div>
-
-           {/* Display selected mood */}
-           {selectedMood && (
-            <div className="selected-mood">
-              <h3>Your mood: {selectedMood}</h3>
-            </div>
-          )}
-
-          {/* Activity Suggestions */}
-            {selectedMood && (
-            <Card className="activity-suggestions">
-              <div className="section-header">
-                <h2>Suggested Activities for {selectedMood}</h2>
-              </div>
-              <div className="activities-grid">
-                {activitySuggestions[selectedMood].map((activity) => (
-                  <div key={activity} className="activity-card">
-                    <h3>{activity}</h3>
-                    <button onClick={() => handleActivityComplete(activity)}>
-                      Complete
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          )}
-      
-
-          {/* Activity Stats */}
+          {/* Stats Cards */}
           <div className="stats-grid">
             <Card>
-              <div className="stat-value">{streak} days</div>
+              <div className="stat-value">{stats.streak} days</div>
               <div className="stat-label">Current Streak</div>
             </Card>
             <Card>
-              <div className="stat-value">{completedActivities.length}</div>
+              <div className="stat-value">{stats.weeklyActivities}</div>
               <div className="stat-label">Activities This Week</div>
             </Card>
             <Card>
-              <div className="stat-value">{moodPercentage}%</div>
+              <div className="stat-value">{stats.moodImprovement}%</div>
               <div className="stat-label">Mood Improvement</div>
             </Card>
           </div>
+
+          {/* Charts */}
+          <div className="charts-grid">
+            <Card className="chart-card">
+              <h3>Mood Distribution</h3>
+              <BarChart width={500} height={300} data={moodChartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="mood" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="count" fill="#155E95" />
+              </BarChart>
+            </Card>
+
+            <Card className="chart-card">
+              <h3>Weekly Activity Trend</h3>
+              <LineChart width={500} height={300} data={activityTrend}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="activities" stroke="#F6C794" strokeWidth={2} />
+              </LineChart>
+            </Card>
+          </div>
+
+          {/* Recent Activities */}
+          <Card className="recent-activities">
+            <h3>Recent Activities</h3>
+            <div className="activities-list">
+              {activities.slice(-5).map((activity, index) => (
+                <div key={index} className="activity-item">
+                  <span className="activity-name">{activity.name}</span>
+                  <span className="activity-date">{new Date(activity.timestamp).toLocaleDateString()}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
         </div>
       </div>
     </div>
   );
 };
 
-export default DashboardLayout;
+export default Dashboard;
