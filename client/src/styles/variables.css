@@ -15,23 +15,47 @@
   --color-neutral-light: #f5f3ff;
   --color-box-shadow: rgba(0, 0, 0, 0.05);
   --color-box-shadow-hover: rgba(0, 0, 0, 0.1);
+  
+  /* Additional colors for light theme */
+  --color-gradient-start: #0284c7;  /* Start of gradients */
+  --color-gradient-end: #38bdf8;    /* End of gradients */
+  --color-accent: #f472b6;          /* Pink accent for special elements */
+  --color-success: #22c55e;         /* Green for success states */
+  --color-error: #ef4444;           /* Red for error states */
 }
-
-/* Dark theme variables */
+/* Modern Dark Theme Variables */
 [data-theme="dark"] {
-  --color-background-light: #1a1a1a;
-  --color-white: #2d2d2d;
-  --color-border: #404040;
-  --color-text-dark: #e5e7eb;
-  --color-text-light: #9ca3af;
-  --color-hover-background: #333333;
-  --color-active-background: #404040;
-  --color-primary: #155E95;
-  --color-primary-light: #f9fafb;
-  --color-success-light: #064e3b;
-  --color-info-light: #1e3a8a;
-  --color-warning-light: #713f12;
-  --color-neutral-light: #2e1065;
-  --color-box-shadow: rgba(0, 0, 0, 0.2);
-  --color-box-shadow-hover: rgba(0, 0, 0, 0.3);
+  /* Main backgrounds */
+  --color-background-light: #0d1117;   /* Main background - deep neutral gray-blue */
+  --color-white: #161b22;              /* Card/container background - slightly lighter gray-blue */
+  
+  /* Text colors */
+  --color-text-dark: #f0f6fc;          /* Primary text - soft white */
+  --color-text-light: #243133;         /* Secondary text - muted gray */
+  
+  /* Borders and interactions */
+  --color-border: #21262d;             /* Subtle border color */
+  --color-hover-background: #1f2a37;   /* Hover state - darker gray */
+  --color-active-background: #2c3e50;  /* Active/selected state - medium blue-gray */
+  
+  /* Primary colors */
+  --color-primary: #fdfdfd;            /* Primary actions - vibrant blue */
+  --color-primary-light: #fbfcfd;      /* Primary accents - light blue */
+  
+  /* Status colors */
+  --color-success-light: #003820;      /* Success background */
+  --color-info-light: #002744;         /* Info background */
+  --color-warning-light: #39260d;      /* Warning background */
+  --color-neutral-light: #161b22;      /* Neutral background */
+  
+  /* Shadows */
+  --color-box-shadow: rgba(0, 0, 0, 0.4); /* Subtle shadow */
+  --color-box-shadow-hover: rgba(0, 0, 0, 0.5); /* Hover shadow */
+
+  /* Additional colors */
+  --color-gradient-start: #58a6ff;     /* Gradient start - vibrant blue */
+  --color-gradient-end: #79c0ff;       /* Gradient end - light blue */
+  --color-accent: #d2a8ff;             /* Accent - soft lavender purple */
+  --color-success: #56d364;            /* Success - soft green */
+  --color-error: #f85149;              /* Error - muted red */
 }

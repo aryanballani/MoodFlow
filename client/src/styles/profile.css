@@ -271,7 +271,7 @@
 .back-btn-dark {
     background-color: var(--color-text-dark);
     border-color: var(--color-text-light);
-    color: var(--color-white);
+    color: var(--color-primary);
 }
 
 .back-btn-dark:hover {
@@ -306,7 +306,7 @@
 
     /* Styling */
     background-color: #dc2626;  /* Vibrant red */
-    color: white;
+    color: var(--color-primary);
     padding: 12px 24px;
     border: none;
     border-radius: 8px;

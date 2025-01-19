@@ -113,7 +113,7 @@
 
 .mood-history {
   margin-top: 2rem;
-  background-color: white;
+  background-color: var(--color-background-light);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
@@ -138,12 +138,34 @@
   padding: 2rem;
 }
 
+/* Replace the existing back-button styles with these */
 .back-button {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  border: 2px solid transparent;
   max-width: 150px;
   margin-bottom: 2rem;
   align-self: flex-start;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px var(--color-box-shadow);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
 }
 
+.back-button:hover {
+  box-shadow: 0 4px 6px var(--color-box-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.back-button:active {
+  background-color: var(--color-info-light);
+  border-color: var(--color-primary);
+  transform: translateY(0);
+}
 .mood-header {
   text-align: center;
   width: 100%;
@@ -234,11 +256,17 @@
 }
 
 .lock-button {
-  max-width: 150px;
-  background-color: var(--color-primary);
-  color: white;
+  background-color: var(--color-background-light);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
+.lock-button:hover{
+  box-shadow: 0 4px 10px var(--color-box-shadow-hover); 
+  transform: translateY(-2px);
+}
 
 .mood-card.active {
   border: 2px solid var(--color-primary);
@@ -275,6 +303,69 @@
   color: var(--color-primary);
   font-size: 1.2rem;
   font-weight: 500;
+}
+
+/* Activity in Progress Styles */
+.mood-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: var(--color-background-light);
+}
+
+.activity-progress-wrapper {
+  margin-bottom: 2rem;
+  background-color: var(--color-background-light);
+  color:var(--color-primary);
+}
+
+.activity-progress-card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.activity-progress-title {
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.activity-progress-description {
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.activity-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.activity-button {
+  max-width: 150px;
+}
+
+.activity-button-complete {
+  color: var(--color-primary);
+}
+
+.activity-button-abandon {
+  color: var(--color-primary);
+}
+
+.activity-button-complete:hover {
+  background-color: var(--color-success-light);
+  color:var(--color-primary);
+  opacity: 0.9;
+}
+
+.activity-button-abandon:hover {
+  background-color: var(--color-error);
+  color: var(--color-primary);
 }
 
 @keyframes spin {

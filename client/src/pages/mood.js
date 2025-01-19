@@ -281,7 +281,6 @@ const Mood = () => {
       </div>
     </div>
   );
-
   if (isActivityLocked && selectedActivity) {
     return (
       <div className="layout-container">
@@ -289,30 +288,28 @@ const Mood = () => {
         <div className="main-content">
           <div className="content-wrapper">
             <div className="mood-header">
-              <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+              <h2 className="mood-title-wrapper">
                 {moods.find(m => m.label === selectedMood)?.emoji}
                 {selectedMood}
               </h2>
             </div>
-
-            <div style={{ marginBottom: '2rem' }}>
-              <div className="mood-card active" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <h4 style={{ color: '#155E95', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.75rem', textAlign: 'center' }}>
+  
+            <div className="activity-progress-wrapper">
+              <div className="mood-card active activity-progress-card">
+                <h4 className="activity-progress-title">
                   Activity in Progress: {selectedActivity.title}
                 </h4>
-                <p style={{ color: '#6A80B9', textAlign: 'center', marginBottom: '1.5rem' }}>{selectedActivity.description}</p>
+                <p className="activity-progress-description">{selectedActivity.description}</p>
                 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+                <div className="activity-button-container">
                   <button 
-                    className="mood-card"
-                    style={{ maxWidth: '150px', backgroundColor: '#155E95', color: 'white' }}
+                    className="mood-card activity-button activity-button-complete"
                     onClick={handleMarkComplete}
                   >
                     Mark as Complete
                   </button>
                   <button 
-                    className="mood-card"
-                    style={{ maxWidth: '150px' }}
+                    className="mood-card activity-button activity-button-abandon"
                     onClick={handleAbandon}
                   >
                     Abandon
@@ -325,7 +322,7 @@ const Mood = () => {
       </div>
     );
   }
-
+  
   if (selectedMood) {
     return (
       <div className="layout-container">
