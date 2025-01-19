@@ -82,5 +82,10 @@ export const recordService = {
     return response.data;
   },
 
+  async getActivitySuggestions(location) {
+    const response = await api.get('/activity-suggestions', { params: location });
+    return response.data;
+  },
+
 
 };
