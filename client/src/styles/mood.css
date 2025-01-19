@@ -23,9 +23,9 @@
 
 .mood-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-  margin-bottom: 2rem;
+  width: 100%;
 }
 
 .mood-card {
@@ -59,46 +59,177 @@
   text-align: center;
 }
 
-.mood-history {
-  background-color: var(--color-white);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 1px 2px var(--color-box-shadow);
-}
 
-.mood-history h3 {
-  color: var(--color-primary);
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.mood-history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+/* Add these styles to your existing mood.css file */
 
 .mood-history-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
   align-items: center;
-  padding: 0.75rem;
-  background-color: var(--color-info-light);
-  border-radius: 0.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .mood-history-emoji {
-  font-size: 1.25rem;
-  margin-right: 0.75rem;
+  font-size: 1.5rem;
 }
 
 .mood-history-text {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline; /* Ensures items align to the text baseline */
+  gap: 0.5rem; /* Adds space between the mood label and the activity */
+}
+
+.mood-history-text .mood-label {
+  font-weight: 600;
+  font-size: 1.2rem;
   color: var(--color-primary);
-  font-weight: 500;
-  flex: 1;
+}
+
+.mood-activity {
+  font-size: 0.9rem;
+  color: var(--color-primary-light); /* Moved this from inline styles to keep styling consistent */
+}
+
+
+.mood-history-datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
 }
 
 .mood-history-date {
-  color: var(--color-primary-light);
-  font-size: 0.875rem;
+  color: #6A80B9;
+  font-weight: 500;
+}
+
+.mood-history-time {
+  color: #6A80B9;
+  font-size: 0.9rem;
+}
+
+.mood-history {
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.mood-history h3 {
+  color: #155E95;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Add these styles to your mood.css file */
+
+.selected-mood-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.back-button {
+  max-width: 150px;
+  margin-bottom: 2rem;
+  align-self: flex-start;
+}
+
+.mood-header {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.current-mood {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mood-message {
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.activities-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.regenerate-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.regenerate-button {
+  max-width: 200px;
+}
+
+.activities-title {
+  color: #155E95;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.activities-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.activity-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: scale(1.02);
+}
+
+.activity-title {
+  color: #155E95;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.activity-description {
+  color: #6A80B9;
+  text-align: center;
+}
+
+.lock-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.lock-button {
+  max-width: 150px;
+  background-color: #155E95;
+  color: white;
+}
+
+
+.mood-card.active {
+  border: 2px solid #155E95;
+  transform: scale(1.02);
 }

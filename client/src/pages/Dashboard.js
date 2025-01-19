@@ -13,22 +13,23 @@ const Dashboard = () => {
   });
   const [moodHistory, setMoodHistory] = useState([]);
   const [activities, setActivities] = useState([]);
+
+  const [location, setLocation] = useState(null);  // Store the location data
+  const [locationPermission, setLocationPermission] = useState(null); // Store location permission status
   const [recordDatam, setRecordData] = useState({});
+
 
 
   useEffect(() => {
     // Load data from localStorage
     const savedMoodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
     const savedActivities = JSON.parse(localStorage.getItem('activities')) || [];
-    const savedStats = JSON.parse(localStorage.getItem('stats')) || {
-      streak: 7,
-      weeklyActivities: 15,
-      moodImprovement: 85
-    };
+    const savedStats = JSON.parse(localStorage.getItem('stats')) || [];
 
     const handleRecordData = async () => {
       const data = await recordService.getUserRecords()
       // Update mood history
+      console.log('Record data:', data);
       setRecordData(data);
     }
 
@@ -39,31 +40,32 @@ const Dashboard = () => {
     setActivities(savedActivities);
     setStats(savedStats);
 
+
     // Request location if not already granted
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Successfully retrieved location
-          const { latitude, longitude } = position.coords;
-          setLocationPermission(true);  // Permission granted
-          // Send location data to the backend
-          userService.updateLocation({ latitude, longitude })
-            .then(response => {
-              console.log('Location updated:', response);
-            })
-            .catch(error => {
-              console.error('Error updating location:', error);
-            });
-        },
-        (error) => {
-          // Handle errors, e.g., user denied permission
-          console.error('Error getting location', error);
-          setLocationPermission(false);  // Permission denied
-        }
-      );
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
+    console.log('Requesting location...');
+    setLocationPermission(true);  // Permission granted
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        // Successfully retrieved location
+        const { latitude, longitude } = position.coords;
+        console.log('Location:', latitude, longitude);
+        setLocation({ latitude, longitude });
+        // Send location data to the backend
+        userService.updateLocation({ latitude, longitude })
+          .then(response => {
+            console.log('Location updated:', response);
+          })
+          .catch(error => {
+            console.error('Error updating location:', error);
+          });
+      },
+      (error) => {
+        // Handle errors, e.g., user denied permission
+        console.log('Error getting location', error);
+        console.error('Error getting location', error);
+        setLocationPermission(false);  // Permission denied
+      },
+    );
   }, []);
 
   // Prepare data for mood distribution chart
@@ -88,6 +90,7 @@ const Dashboard = () => {
     { day: 'Sun', activities: 6 }
   ];
 
+
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -100,77 +103,73 @@ const Dashboard = () => {
             <p>Your wellness statistics and trends</p>
           </div>
 
-          {/* Stats Cards */}
-          <div className="stats-grid">
-            <Card>
-              <div className="stat-value">{stats.streak} days</div>
-              <div className="stat-label">Current Streak</div>
-            </Card>
-            <Card>
-              <div className="stat-value">{stats.weeklyActivities}</div>
-              <div className="stat-label">Activities This Week</div>
-            </Card>
-            <Card>
-              <div className="stat-value">{stats.moodImprovement}%</div>
-              <div className="stat-label">Mood Improvement</div>
-            </Card>
-          </div>
+          {/* Please add more logs card */}
+          {recordDatam.length === 0 && (
+            <Card className="no-records">
+              <h3>No records found</h3>
+              <p>Start logging your mood and activities to see your wellness statistics and trends.</p>
+              </Card>
+              )}
 
-          {/* Location Popup */}
-          {locationPermission === null ? (
-            <div className="location-popup">
-              <h3>Location Permission Request</h3>
-              <p>We need your location to provide better services based on your area. Do you want to allow location access?</p>
-              <button onClick={() => window.location.reload()}>Allow Location</button>
-              <button onClick={() => setLocationPermission(false)}>Deny</button>
-            </div>
-          ) : locationPermission === false ? (
-            <div className="location-error">
-              <p>Location permission denied. Some features may not work properly.</p>
-            </div>
-          ) : location && (
-            <div className="location-info">
-              <p>Location: {`Latitude: ${location.latitude}, Longitude: ${location.longitude}`}</p>
+          {/* Stats Cards */}
+          {recordDatam.length !== 0 && (
+            <div className="stats-grid">
+              <Card>
+                <div className="stat-value">{stats.streak} days</div>
+                <div className="stat-label">Current Streak</div>
+              </Card>
+              <Card>
+                <div className="stat-value">{stats.weeklyActivities}</div>
+                <div className="stat-label">Activities This Week</div>
+              </Card>
+              <Card>
+                <div className="stat-value">{stats.moodImprovement}%</div>
+                <div className="stat-label">Mood Improvement</div>
+              </Card>
             </div>
           )}
 
           {/* Charts */}
-          <div className="charts-grid">
-            <Card className="chart-card">
-              <h3>Mood Distribution</h3>
-              <BarChart width={500} height={300} data={moodChartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="mood" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#155E95" />
-              </BarChart>
-            </Card>
+          {recordDatam.length !== 0 && (
+            <div className="charts-grid">
+              <Card className="chart-card">
+                <h3>Mood Distribution</h3>
+                <BarChart width={500} height={300} data={moodChartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="mood" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#155E95" />
+                </BarChart>
+              </Card>
 
-            <Card className="chart-card">
-              <h3>Weekly Activity Trend</h3>
-              <LineChart width={500} height={300} data={activityTrend}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="day" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="activities" stroke="#F6C794" strokeWidth={2} />
-              </LineChart>
-            </Card>
-          </div>
+              <Card className="chart-card">
+                <h3>Weekly Activity Trend</h3>
+                <LineChart width={500} height={300} data={activityTrend}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="activities" stroke="#F6C794" strokeWidth={2} />
+                </LineChart>
+              </Card>
+            </div>
+          )}
 
           {/* Recent Activities */}
-          <Card className="recent-activities">
-            <h3>Recent Activities</h3>
-            <div className="activities-list">
-              {activities.slice(-5).map((activity, index) => (
-                <div key={index} className="activity-item">
-                  <span className="activity-name">{activity.name}</span>
-                  <span className="activity-date">{new Date(activity.timestamp).toLocaleDateString()}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
+          {recordDatam.length !== 0 && (
+            <Card className="recent-activities">
+              <h3>Recent Activities</h3>
+              <div className="activities-list">
+                {activities.slice(-5).map((activity, index) => (
+                  <div key={index} className="activity-item">
+                    <span className="activity-name">{activity.name}</span>
+                    <span className="activity-date">{new Date(activity.timestamp).toLocaleDateString()}</span>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          )}
         </div>
       </div>
     </div>

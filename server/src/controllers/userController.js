@@ -166,9 +166,10 @@ async updateLocation(req, res) {
     }
 
     const { latitude, longitude } = req.body;
-    user.location = { latitude, longitude };
+    user.location = [ latitude, longitude ];
 
     await user.save();
+    console.log(user);
     res.json(user);
   } catch (error) {
     console.log(error);

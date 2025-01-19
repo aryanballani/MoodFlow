@@ -78,6 +78,18 @@ const Profile = () => {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            // Call logout service
+            localStorage.removeItem('session-key');
+            
+            // Navigate to login page
+            navigate('/login');
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
+
     return (
         <div className="layout-container">
             <Sidebar />
@@ -154,6 +166,13 @@ const Profile = () => {
                             </button>
                         )}
                     </form>
+                    <button 
+                        onClick={handleLogout}
+                        className="logout-button"
+                    >
+                        Logout
+                    </button>
+
                 </div>
             </div>
         </div>
