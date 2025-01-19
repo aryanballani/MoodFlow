@@ -53,6 +53,11 @@ export const userService = {
   async getProfile() {
     const response = await api.get('/users/profile');
     return response.data;
+  },
+
+  async updateLocation(locationData) {
+    const response = await api.put('/users/location', locationData);
+    return response.data;
   }
 };
 

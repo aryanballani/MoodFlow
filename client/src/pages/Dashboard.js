@@ -3,6 +3,7 @@ import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip } 
 import Sidebar from '../components/sidebar';
 import '../styles/dashboard.css';
 import Card from '../components/card';
+import { userService } from '../services/api';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -35,11 +36,17 @@ const Dashboard = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           // Successfully retrieved location
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          });
+          const { latitude, longitude } = position.coords;
+          setLocation({ latitude, longitude });
           setLocationPermission(true);  // Permission granted
+          // Send location data to the backend
+          userService.updateLocation({ latitude, longitude })
+            .then(response => {
+              console.log('Location updated:', response);
+            })
+            .catch(error => {
+              console.error('Error updating location:', error);
+            });
         },
         (error) => {
           // Handle errors, e.g., user denied permission

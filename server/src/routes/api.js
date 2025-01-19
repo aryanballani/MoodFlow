@@ -20,6 +20,7 @@ router.get('/records/analytics', recordController.getMoodAnalytics);
 router.get('/places', placesController.getNearbyPlaces);
 router.get('/weather', weatherController.getWeatherCondition);
 router.get('/users/profile', userController.getProfile);
+router.put('/users/location', userController.updateLocation);
 
 // only llm output
 // router.get('/activity-suggestions', async (req, res) => {
