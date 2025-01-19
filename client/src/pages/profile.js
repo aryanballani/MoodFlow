@@ -10,8 +10,8 @@ const Profile = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState({
-        name: '',
-        dob: '',
+        fullname: '',
+        dateOfBirth: '',
         location: ''
     });
     const [imagePreview, setImagePreview] = useState(null);
@@ -20,12 +20,17 @@ const Profile = () => {
         const fetchProfile = async () => {
             try {
                 const profileData = await userService.getProfile();
-                setProfile(profileData);
+                console.log(profileData);
+                await setProfile({
+                    fullname: profileData.fullname,
+                    dateOfBirth: profileData.dateOfBirth,
+                    location: profileData.location || '' // Assuming location might be missing
+                });
             } catch (error) {
                 console.error('Error fetching profile:', error);
             }
         };
-
+    
         fetchProfile();
     }, []);
 
