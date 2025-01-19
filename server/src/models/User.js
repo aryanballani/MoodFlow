@@ -28,9 +28,8 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   photo: {
-    data: Buffer,  // For storing the image data
-    contentType: String,  // For storing the MIME type
-    url: String    // Optional: for storing cloud storage URLs
+    type: String,
+    default: 'https://res.cloudinary.com/dkqohzjdz/image/upload/v1620382889/default-profile-image_q8zj1y.png'
   },
   createdOn: {
     type: Date,

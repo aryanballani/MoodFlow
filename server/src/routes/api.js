@@ -7,6 +7,22 @@ const weatherController = require('../services/weatherController');
 const axios = require('axios');
 require('dotenv').config();
 
+
+// User routes
+router.post('/users/register', userController.register);
+router.post('/users/login', userController.login);
+router.put('/users/profile', userController.updateProfile);
+
+// Record routes
+router.post('/records', recordController.createRecord);
+router.get('/records', recordController.getUserRecords);
+router.put('/records/:id', recordController.updateRecord);
+router.get('/records/analytics', recordController.getMoodAnalytics);
+router.get('/places', placesController.getNearbyPlaces);
+router.get('/weather', weatherController.getWeatherCondition);
+router.get('/users/profile', userController.getProfile);
+router.put('/users/location', userController.updateLocation);
+
 function parseActivitySuggestions(originalResponse) {
   // Clean up the response to make sure we don't have unwanted newlines or spaces
   const cleanedResponse = originalResponse
@@ -36,20 +52,43 @@ function parseActivitySuggestions(originalResponse) {
   return activities;
 }
 
-// User routes
-router.post('/users/register', userController.register);
-router.post('/users/login', userController.login);
-router.put('/users/profile', userController.updateProfile);
+//     if (!latitude || !longitude) {
+//       return res.status(400).json({ message: 'Please provide latitude and longitude.' });
+//     }
 
-// Record routes
-router.post('/records', recordController.createRecord);
-router.get('/records', recordController.getUserRecords);
-router.put('/records/:id', recordController.updateRecord);
-router.get('/records/analytics', recordController.getMoodAnalytics);
-router.get('/places', placesController.getNearbyPlaces);
-router.get('/weather', weatherController.getWeatherCondition);
-router.get('/users/profile', userController.getProfile);
-router.put('/users/location', userController.updateLocation);
+//     try {
+//       // Fetch weather condition
+//       const weatherResponse = await axios.get('http://localhost:6000/weather', {
+//         params: { latitude, longitude },
+//       });
+//       const weatherCondition = weatherResponse.data.condition; // E.g., "cold and rainy"
+  
+//       // Construct the LLM prompt
+//       const prompt = `The current weather is ${weatherCondition}. Suggest some activities I can do based on this weather. The output should look like this: [option 1], [option 2], [option 3], etc. This is the format you should follow, do not print anything except the options. strictly stick to the formatting`;
+  
+//       // Call the LLM API
+//       const llmResponse = await axios.post('https://f923-206-87-113-208.ngrok-free.app/api/generate', {
+//         model: 'llama3.2:3b',
+//         prompt: prompt,
+//         stream: false,
+//       });
+
+//       // Log the original LLM response (without parsing)
+//       console.log('Original LLM Response:', llmResponse.data);
+  
+//       // Respond with the raw LLM response
+//       res.json({ weather: weatherCondition, llmResponse: llmResponse.data });
+//     } catch (error) {
+//       console.error('Error fetching activity suggestions:', error.message);
+      
+//       // Log more details if it's an error from the LLM API
+//       if (error.response) {
+//         console.error('LLM API Error:', error.response.data);
+//       }
+
+//       res.status(500).json({ message: 'An error occurred while fetching activity suggestions.' });
+//     }
+// });
 
 router.get('/location', async (req, res) => {
   const { latitude, longitude } = req.query;

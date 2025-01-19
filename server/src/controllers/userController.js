@@ -8,7 +8,7 @@ const userController = {
   async register(req, res) {
     try {
       console.log(req.body);
-      const { username, email, password, dateOfBirth, fullName, interests} = req.body;
+      const { username, email, password, dateOfBirth, fullName, interests, profileImage} = req.body;
       // Check if user exists
       const userExists = await User.findOne({ $or: [{ email }, { username }] });
       if (userExists) {
@@ -25,9 +25,10 @@ const userController = {
         password: hashedPassword,
         dateOfBirth,
         fullname: fullName,
-        interests
+        interests,
+        photo: profileImage
       });
-
+      
       // Generate token
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: '30d'
