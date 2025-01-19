@@ -1,4 +1,5 @@
 :root {
+  /* Light theme variables (default) */
   --color-background-light: #f9fafb;
   --color-white: #ffffff;
   --color-border: #e5e7eb;
@@ -14,4 +15,23 @@
   --color-neutral-light: #f5f3ff;
   --color-box-shadow: rgba(0, 0, 0, 0.05);
   --color-box-shadow-hover: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme variables */
+[data-theme="dark"] {
+  --color-background-light: #1a1a1a;
+  --color-white: #2d2d2d;
+  --color-border: #404040;
+  --color-text-dark: #e5e7eb;
+  --color-text-light: #9ca3af;
+  --color-hover-background: #333333;
+  --color-active-background: #404040;
+  --color-primary: #155E95;
+  --color-primary-light: #f9fafb;
+  --color-success-light: #064e3b;
+  --color-info-light: #1e3a8a;
+  --color-warning-light: #713f12;
+  --color-neutral-light: #2e1065;
+  --color-box-shadow: rgba(0, 0, 0, 0.2);
+  --color-box-shadow-hover: rgba(0, 0, 0, 0.3);
 }

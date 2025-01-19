@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import Sidebar from '../components/sidebar';
 import '../styles/mood.css';
+import { userService } from '../services/api';
 
 
 const Mood = () => {
@@ -160,20 +161,8 @@ const Mood = () => {
     Provide 5 activity suggestions and places, do not print anything else, strictly stick to the format.`;
 
 
-      const response = await fetch("https://f923-206-87-113-208.ngrok-free.app/api/generate", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: {
-          model: 'llama3.2:3b',
-          prompt: prompt,
-          stream: false,
-        },
-        
-        
-      });
-
+    const response = userService.getActivitySuggestions(latitude, longitude);
+    console.log(response);
       const data = await response.json();
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
