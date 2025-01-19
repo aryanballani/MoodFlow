@@ -163,20 +163,19 @@ const Mood = () => {
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
       console.log(data);
-      setWeather(data.weather);
+      console.log(data);
+      if (data.weather) {
+        setWeather(data.weather);
+      } else {
+        console.log('No weather data recieved. Something went wrong.');
+        setWeather("Cloudy");
+      }
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
-        const suggestedActivities = data.suggestions.map(suggestion => ({
-          title: suggestion.title || suggestion,
-          description: suggestion.description || suggestion,
-          venue_type: suggestion.Generalized_venue || 'Location'
-        }));
-        setSuggestedActivities(suggestedActivities);
         const formattedActivities = data.suggestions.map(suggestion => ({
           title: suggestion.title || suggestion,
           description: suggestion.description || suggestion,
         }));
-        console.log(data.places);
         setActivities(formattedActivities);
       }
     } catch (error) {
