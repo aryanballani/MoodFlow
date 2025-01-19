@@ -57,7 +57,7 @@ const Profile = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setIsEditing(false);
         // Here you would typically send the data to your backend
