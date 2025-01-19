@@ -13,9 +13,11 @@ const Dashboard = () => {
   });
   const [moodHistory, setMoodHistory] = useState([]);
   const [activities, setActivities] = useState([]);
+
   const [location, setLocation] = useState(null);  // Store the location data
   const [locationPermission, setLocationPermission] = useState(null); // Store location permission status
   const [recordDatam, setRecordData] = useState({});
+
 
 
   useEffect(() => {
@@ -41,31 +43,32 @@ const Dashboard = () => {
     setActivities(savedActivities);
     setStats(savedStats);
 
+
     // Request location if not already granted
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          // Successfully retrieved location
-          const { latitude, longitude } = position.coords;
-          setLocationPermission(true);  // Permission granted
-          // Send location data to the backend
-          userService.updateLocation({ latitude, longitude })
-            .then(response => {
-              console.log('Location updated:', response);
-            })
-            .catch(error => {
-              console.error('Error updating location:', error);
-            });
-        },
-        (error) => {
-          // Handle errors, e.g., user denied permission
-          console.error('Error getting location', error);
-          setLocationPermission(false);  // Permission denied
-        }
-      );
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
+    console.log('Requesting location...');
+    setLocationPermission(true);  // Permission granted
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        // Successfully retrieved location
+        const { latitude, longitude } = position.coords;
+        console.log('Location:', latitude, longitude);
+        setLocation({ latitude, longitude });
+        // Send location data to the backend
+        userService.updateLocation({ latitude, longitude })
+          .then(response => {
+            console.log('Location updated:', response);
+          })
+          .catch(error => {
+            console.error('Error updating location:', error);
+          });
+      },
+      (error) => {
+        // Handle errors, e.g., user denied permission
+        console.log('Error getting location', error);
+        console.error('Error getting location', error);
+        setLocationPermission(false);  // Permission denied
+      },
+    );
   }, []);
 
   // Prepare data for mood distribution chart

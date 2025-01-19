@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema({
     immutable: true  // Prevents modification after creation
   },
   interests: [String], 
+  location: [Number],  // [longitude, latitude]
 });
 
 const User = mongoose.model('User', userSchema);
