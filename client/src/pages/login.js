@@ -24,10 +24,16 @@ const AuthPages = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const interests = [
-    "Yoga", "Meditation", "Running", "Gym", 
-    "Reading", "Cooking", "Gaming", "Travel",
-    "Music", "Art", "Sports", "Photography"
+    "Yoga", "Meditation", "Running", "Reading", 
+    "Gaming", "Music", "Art", "Photography",
+    "Hiking", "Writing", "Gardening", "Drawing", 
+    "Coding", "Astronomy", "DIY Projects", 
+    "Film Making", "Swimming", "Martial Arts", "Baking",
+    "Calligraphy", "Fashion", "Robotics", "Chess", 
+    "Esports", "Language Learning"
   ];
+  
+  
 
   const handleInputChange = (e, isLoginForm = false) => {
     const { name, value } = e.target;

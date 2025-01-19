@@ -117,8 +117,7 @@ const Profile = () => {
         try {
             console.log('Logging out with token', localStorage.getItem('token'));
             // Call logout service
-            localStorage.removeItem('session-key');
-            localStorage.removeItem('token');
+            localStorage.clear();
             console.log('Logged out successfully with token', localStorage.getItem('token'));
             
             // Navigate to login page

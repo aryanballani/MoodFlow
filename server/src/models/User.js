@@ -28,8 +28,7 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   photo: {
-    type: String,
-    default: 'https://res.cloudinary.com/dkqohzjdz/image/upload/v1620382889/default-profile-image_q8zj1y.png'
+    type: String
   },
   createdOn: {
     type: Date,
