@@ -1,0 +1,114 @@
+@import url(./variables.css);
+
+/* General container for the page */
+.activity-page {
+    max-width: 1024px; /* Same as max-w-4xl */
+    margin: 0 auto; /* Centering the container */
+    padding: 1.5rem; /* Padding */
+}
+
+/* Header section styles */
+.activity-page .header {
+    margin-bottom: 2rem; /* Same as mb-8 */
+    text-align: center; /* Center align the header text */
+}
+
+.activity-page .header h1 {
+    font-size: 2.5rem; /* Increased size for prominence */
+    font-weight: 700; /* Same as font-bold */
+    color: var(--color-primary); /* Replacing with variable */
+    margin-bottom: 0.5rem; /* Same as mb-2 */
+}
+
+.activity-page .header p {
+    font-size: 1rem; /* Ensure the paragraph is not too small */
+    color: var(--color-text-light); /* Replacing with variable */
+}
+
+/* Streak counter section */
+.activity-page .streak-counter {
+    background-color: var(--color-white); /* Replacing with variable */
+    color: var(--color-primary);
+    border-radius: 0.375rem; /* Same as rounded-lg */
+    box-shadow: 0 4px 6px var(--color-box-shadow-hover); /* Replacing with variable */
+    padding: 1.5rem; /* Same as p-6 */
+    margin-bottom: 2rem; /* Same as mb-8 */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.activity-page .streak-counter h2 {
+    font-size: 1.25rem; /* Same as text-xl */
+    font-weight: 600; /* Same as font-semibold */
+}
+
+.activity-page .streak-counter p {
+    font-size: 2rem; /* Same as text-3xl */
+    font-weight: 700; /* Same as font-bold */
+    color: var(--color-text-light); /* Replacing with variable */
+}
+
+/* Activity timeline section */
+.activity-page .activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Same as space-y-6 */
+}
+
+/* Activity card */
+.activity-page .activity-card {
+    background-color: var(--color-white); /* Replacing with variable */
+    border-radius: 0.375rem; /* Same as rounded-lg */
+    box-shadow: 0 4px 6px var(--color-box-shadow-hover); /* Replacing with variable */
+    padding: 1.5rem; /* Same as p-6 */
+    transition: transform 0.3s ease; /* Same as transition-transform */
+    margin-left: 1rem; /* Add a gap from the left */
+}
+
+.activity-page .activity-card:hover {
+    transform: scale(1.02); /* Same as hover:scale-[1.02] */
+}
+
+/* Activity card header */
+.activity-page .activity-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem; /* Same as mb-4 */
+}
+
+.activity-page .activity-card .card-header .time {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Same as gap-3 */
+}
+
+.activity-page .activity-card .card-header .time span {
+    color: var(--color-text-light); /* Replacing with variable */
+    font-weight: 500; /* Same as font-medium */
+}
+
+.activity-page .activity-card .card-header .mood-weather {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Same as gap-3 */
+}
+
+.activity-page .activity-card .card-header .mood-weather span {
+    font-size: 1.5rem; /* Same as text-2xl */
+}
+
+.activity-page .activity-card .activity-details {
+    margin-top: 1rem;
+}
+
+.activity-page .activity-card .activity-details h3 {
+    font-size: 1.125rem; /* Same as text-lg */
+    font-weight: 600; /* Same as font-semibold */
+    color: var(--color-primary); /* Replacing with variable */
+    margin-bottom: 0.5rem; /* Same as mb-2 */
+}
+
+.activity-page .activity-card .activity-details p {
+    color: var(--color-text-light); /* Replacing with variable */
+}

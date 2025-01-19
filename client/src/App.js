@@ -4,6 +4,7 @@ import Dashboard from './pages/dashboard';
 import Profile from './pages/profile';
 import Mood from './pages/mood';
 import AuthPages from './pages/login';
+import Activities from './pages/activities';
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/mood" element={<Mood />} />
         <Route path="/login" element={<AuthPages />} />
-        {/* <Route path="/activities" element={<Activities />} /> */}
+        <Route path="/activities" element={<Activities />} />
       </Routes>
     </Router>
   );
