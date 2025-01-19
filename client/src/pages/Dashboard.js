@@ -34,6 +34,8 @@ const Dashboard = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
+        localStorage.setItem('latitude', latitude);
+        localStorage.setItem('longitude', longitude);
         userService
           .updateLocation({ latitude, longitude })
           .then((response) => {
