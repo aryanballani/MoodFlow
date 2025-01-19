@@ -2,15 +2,10 @@ import React, { useState, useEffect} from 'react';
 import Sidebar from '../components/sidebar';
 import '../styles/mood.css';
 
-const Mood = () => {
-  // const [moodCards, setMoodCards] = useState(() => {
-  //   return JSON.parse(localStorage.getItem('moodHistory')) || [];
-  // });
 
+const Mood = () => {
   const [moodCards, setMoodCards] = useState(() => {
-    // Filter to only include entries with completed activities when loading from localStorage
-    const history = JSON.parse(localStorage.getItem('moodHistory')) || [];
-    return history.filter(entry => entry.completedActivity);
+    return JSON.parse(localStorage.getItem('moodHistory')) || [];
   });
 
   const [selectedMood, setSelectedMood] = useState(null);
@@ -18,6 +13,8 @@ const Mood = () => {
   const [isActivityLocked, setIsActivityLocked] = useState(() => {
     return JSON.parse(localStorage.getItem('lockedActivity')) || false;
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     // Check for locked activity on component mount
@@ -128,7 +125,6 @@ const Mood = () => {
       ]
     }
   };
-  
 
   const moods = [
     { emoji: '😊', label: 'Happy', className: 'mood-card-happy' },
@@ -146,10 +142,70 @@ const Mood = () => {
   ];
   
 
-  const handleMoodSelect = (mood) => {
-    setSelectedMood(mood.label);
-    localStorage.setItem('currentMood', mood.label);
+  const fetchActivities = async (mood) => {
+    setIsLoading(true);
+    try {
+      // Get user data from localStorage
+      const age = localStorage.getItem('age') || '';
+      const interests = localStorage.getItem('interests') || '';
+      const latitude = localStorage.getItem('latitude') || '52.52'; 
+      const longitude = localStorage.getItem('longitude') || '13.41';
+
+      const prompt = `The current weather is . Suggest some activities I can do based on this weather. Each activity should be formatted as follows:
+    {
+      title: "3 words max for the title", 
+      description: "A short description of the activity, max 1 line"
+    }
+    After suggesting 5 activities, provide a list of places where these activities can take place. Each place should be a one-word description, without any explanation, listed in a simple array, like this: ["place1", "place2", "place3", "place 4", "place 5"]. 
+    Provide 5 activity suggestions and places, do not print anything else, strictly stick to the format.`;
+
+
+      const response = await fetch("https://f923-206-87-113-208.ngrok-free.app/api/generate", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: {
+          model: 'llama3.2:3b',
+          prompt: prompt,
+          stream: false,
+        },
+        
+        
+      });
+
+      const data = await response.json();
+      if (data.suggestions) {
+        // Transform the suggestions into the format your app expects
+        const formattedActivities = data.suggestions.map(suggestion => ({
+          title: suggestion.title || suggestion,
+          description: suggestion.description || suggestion,
+        }));
+        setActivities(formattedActivities);
+      }
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+      // Fallback to default activities if request fails
+      setActivities(moodData[mood].activities);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleMoodSelect = async (mood) => {
+    setSelectedMood(mood.label);
+    await fetchActivities(mood.label);
+  };
+
+  // Loading screen component
+  const LoadingScreen = () => (
+    <div className="loading-screen">
+      <div className="loading-content">
+        <div className="loading-spinner"></div>
+        <p>Waiting for LLM response...</p>
+      </div>
+    </div>
+  );
 
   const handleActivitySelect = (activity) => {
     setSelectedActivity(activity);
@@ -300,51 +356,44 @@ const Mood = () => {
               </h2>
               <p className="mood-message">{moodData[selectedMood].message}</p>
             </div>
-    
-            <div className="activities-section">
-              {!selectedActivity && (
-                <div className="regenerate-button-container">
-                  <button 
-                    className="mood-card regenerate-button"
-                    onClick={() => {/* Regenerate function would go here */}}
-                  >
-                    Regenerate Activities
-                  </button>
+
+            {isLoading ? (
+              <LoadingScreen />
+            ) : (
+              <div className="activities-section">
+                <h3 className="activities-title">
+                  Suggested Activities
+                </h3>
+                
+                <div className="activities-container">
+                  <div className="mood-grid">
+                    {activities.map((activity, index) => (
+                      <div 
+                        key={index} 
+                        className={`mood-card activity-card ${selectedActivity?.title === activity.title ? 'active' : ''}`}
+                        onClick={() => handleActivitySelect(activity)}
+                      >
+                        <h4 className="activity-title">
+                          {activity.title}
+                        </h4>
+                        <p className="activity-description">{activity.description}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
-    
-              <h3 className="activities-title">
-                Suggested Activities
-              </h3>
-              
-              <div className="activities-container">
-                <div className="mood-grid">
-                  {moodData[selectedMood].activities.map((activity, index) => (
-                    <div 
-                      key={index} 
-                      className={`mood-card activity-card ${selectedActivity?.title === activity.title ? 'active' : ''}`}
-                      onClick={() => handleActivitySelect(activity)}
+
+                {selectedActivity && (
+                  <div className="lock-button-container">
+                    <button 
+                      className="mood-card lock-button"
+                      onClick={handleLockActivity}
                     >
-                      <h4 className="activity-title">
-                        {activity.title}
-                      </h4>
-                      <p className="activity-description">{activity.description}</p>
-                    </div>
-                  ))}
-                </div>
+                      Lock Activity
+                    </button>
+                  </div>
+                )}
               </div>
-    
-              {selectedActivity && (
-                <div className="lock-button-container">
-                  <button 
-                    className="mood-card lock-button"
-                    onClick={handleLockActivity}
-                  >
-                    Lock Activity
-                  </button>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
