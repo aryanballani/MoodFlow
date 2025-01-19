@@ -7,15 +7,15 @@ const recordController = {
   // Create new record
   async createRecord(req, res) {
     try {
-      const { activitySuggested, moodRecorded, status, moodImproved, moodScore } = req.body;
+      const { activitySuggested, moodRecorded, status, weather } = req.body;
       
       const record = await Record.create({
         user: req.user.id,
         activitySuggested,
         moodRecorded,
         status,
-        moodImproved,
-        moodScore
+        weather,
+        date: Date.now()
       });
 
       res.status(201).json(record);

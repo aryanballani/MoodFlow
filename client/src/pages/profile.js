@@ -33,6 +33,7 @@ const Profile = () => {
                 const birthDate = moment(profileData.dateOfBirth, 'YYYY-MM-DD');
                 const calculatedAge = moment().diff(birthDate, 'years');
                 localStorage.setItem('age', calculatedAge);
+                localStorage.setItem('interests', profileData.interests);
                 setAge(calculatedAge);
 
                 // Update profile data
