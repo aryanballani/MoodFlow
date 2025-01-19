@@ -30,7 +30,7 @@ const AuthPages = () => {
     "Coding", "Astronomy", "DIY Projects", 
     "Film Making", "Swimming", "Martial Arts", "Baking",
     "Calligraphy", "Fashion", "Robotics", "Chess", 
-    "Esports", "Language Learning"
+    "Esports", "LLM"
   ];
   
   
