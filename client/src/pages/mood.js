@@ -18,6 +18,7 @@ const Mood = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activities, setActivities] = useState([]);
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
+  const [suggestedActivities, setSuggestedActivities] = useState([]);
   
   const handleActivitySelect = (activity) => {
     setSelectedActivity(activity); // This will select the clicked activity
@@ -161,9 +162,16 @@ const Mood = () => {
       const longitude = localStorage.getItem('longitude') || '-123.1207';
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
+      console.log(data);
       setWeather(data.weather);
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
+        const suggestedActivities = data.suggestions.map(suggestion => ({
+          title: suggestion.title || suggestion,
+          description: suggestion.description || suggestion,
+          venue_type: suggestion.Generalized_venue || 'Location'
+        }));
+        setSuggestedActivities(suggestedActivities);
         const formattedActivities = data.suggestions.map(suggestion => ({
           title: suggestion.title || suggestion,
           description: suggestion.description || suggestion,
@@ -203,7 +211,10 @@ const Mood = () => {
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
     console.log('Locked activity:', selectedActivity.title);
     try {
-      const response = await recordService.getNearbyPlaces(latitude, longitude, selectedActivity.title);
+      const generalized_venue_activity = suggestedActivities.find(activity => activity.title === selectedActivity.title).venue_type;
+      generalized_venue_activity.toLowerCase();
+      console.log('Generalized venue activity:', generalized_venue_activity);
+      const response = await recordService.getNearbyPlaces(latitude, longitude, generalized_venue_activity);
       setNearbyPlaces(response.places);
     } catch (error) {
       console.error('Error fetching places:', error);
