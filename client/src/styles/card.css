@@ -1,0 +1,10 @@
+
+/* Card Component */
+.card {
+    background-color: var(--color-white);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--color-box-shadow);
+    margin-bottom: 50px;
+  }
+  

@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import Sidebar from '../components/sidebar';
 import '../styles/dashboard.css';
-
-const Card = ({ children, className = '' }) => (
-  <div className={`card ${className}`}>{children}</div>
-);
+import Card from '../components/card';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({

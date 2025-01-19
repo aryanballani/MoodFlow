@@ -1,20 +1,4 @@
-:root {
-  --color-background-light: #f9fafb;
-  --color-white: #ffffff;
-  --color-border: #e5e7eb;
-  --color-text-dark: #1f2937;
-  --color-text-light: #4b5563;
-  --color-hover-background: #f3f4f6;
-  --color-active-background: #eff6ff;
-  --color-primary: #2563eb;
-  --color-primary-light: #93c5fd;
-  --color-success-light: #f0fdf4;
-  --color-info-light: #eff6ff;
-  --color-warning-light: #fefce8;
-  --color-neutral-light: #f5f3ff;
-  --color-box-shadow: rgba(0, 0, 0, 0.05);
-  --color-box-shadow-hover: rgba(0, 0, 0, 0.1);
-}
+@import url(./variables.css);
 
 /* Main Layout */
 .dashboard-container {
@@ -76,15 +60,6 @@
   color: var(--color-text-light);
 }
 
-
-/* Card Component */
-.card {
-  background-color: var(--color-white);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  box-shadow: var(--color-box-shadow);
-  margin-bottom: 50px;
-}
 
 /* Stats Grid */
 .stats-grid {
