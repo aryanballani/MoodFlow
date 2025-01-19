@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera } from 'lucide-react';
 import '../styles/profile.css';
@@ -10,11 +10,24 @@ const Profile = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState({
-        name: 'Sarah Johnson',
-        dob: '1990-04-15',
-        location: 'San Francisco, CA'
+        name: '',
+        dob: '',
+        location: ''
     });
     const [imagePreview, setImagePreview] = useState(null);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const profileData = await userService.getProfile();
+                setProfile(profileData);
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+
+        fetchProfile();
+    }, []);
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
