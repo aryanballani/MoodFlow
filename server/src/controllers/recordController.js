@@ -1,4 +1,7 @@
 const { Record } = require('../models/Record');
+const { User } = require('../models/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const recordController = {
   // Create new record
@@ -24,8 +27,20 @@ const recordController = {
   // Get user's records with filters
   async getUserRecords(req, res) {
     try {
+      const authHeader = req.header('Authorization');
+      if (!authHeader) {
+        return res.status(401).json({ message: 'No token, authorization denied' });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decoded.id);
+      const user = await User.findById(decoded.id).select('-password');
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
       const { startDate, endDate, status } = req.query;
-      const query = { user: req.user.id };
+      const query = { user: decoded.id };
       
       if (startDate || endDate) {
         query.date = {};
@@ -38,6 +53,7 @@ const recordController = {
       const records = await Record.find(query).sort({ date: -1 });
       res.json(records);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: error.message });
     }
   },
