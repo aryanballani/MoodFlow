@@ -47,7 +47,11 @@
 
 /* Welcome Header */
 .welcome-header {
-  margin-bottom: 2rem;
+  color: #155E95;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0rem;
+  text-align: center;
 }
 
 .welcome-header h2 {

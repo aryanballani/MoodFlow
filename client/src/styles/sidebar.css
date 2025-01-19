@@ -1,6 +1,10 @@
 @import url(./variables.css);
 
 /* Sidebar Styles */
+.sidebar-container {
+  position: relative;
+}
+
 .sidebar {
   width: 256px;
   background-color: var(--color-white);
@@ -8,10 +12,18 @@
   padding: 1rem;
   min-height: 100vh;
   height: auto;
+  transition: transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
 }
 
 .sidebar-header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .sidebar-header h1 {
@@ -52,4 +64,77 @@
 .nav-icon {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+/* Toggle button styles */
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 60;
+  padding: 0.5rem;
+  background-color: #155E95;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Overlay for mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+  }
+
+  /* Add margin to main content when sidebar is closed */
+  .main-content {
+    margin-left: 0;
+  }
+
+.sidebar-header {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.sidebar-header h1 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #155E95;
+}
+
+}
+
+/* Add margin to main content when sidebar is open on desktop */
+@media (min-width: 769px) {
+  .main-content {
+    margin-left: 256px;
+  }
 }
