@@ -76,17 +76,31 @@ router.get('/location', async (req, res) => {
 
 router.get('/places', async (req, res) => {
   try {
-    const { query } = req.query; // Get query from query parameters
+    const { latitude, longitude, types } = req.query; // Get latitude, longitude, and types (as a list)
+    
+    // Ensure all required parameters are provided
+    if (!latitude || !longitude || !types) {
+      return res.status(400).json({ message: 'Please provide latitude, longitude, and types.' });
+    }
 
-    // Call placesController to fetch places
-    const fetchedPlaces = await placesController.getPlaces(query);
+    // Split the 'types' query into an array (if it's a comma-separated string)
+    const placeTypes = types.split(',');
 
+    // Initialize an empty array to store the places
+    let allPlaces = [];
+
+    // Loop through each place type and fetch the places for that type
+    for (const type of placeTypes) {
+      const fetchedPlaces = await placesController.getNearbyPlaces({ latitude, longitude, type });
+      allPlaces = [...allPlaces, ...fetchedPlaces]; // Combine results from each type
+    }
+
+    // Return the combined places list
     res.json({
-      places: fetchedPlaces // Return the fetched places
+      places: allPlaces
     });
   } catch (error) {
     console.error('Error fetching places:', error.message);
-
     res.status(500).json({ message: 'An error occurred while fetching places.' });
   }
 });
