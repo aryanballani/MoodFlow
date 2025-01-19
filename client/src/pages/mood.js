@@ -150,6 +150,8 @@ const Mood = () => {
     setIsLoading(true);
     try {
       // Get user data from localStorage
+      setWeather("Sunny");
+      throw new Error('Not implemented');
       const age = localStorage.getItem('age') || '';
       const interests = localStorage.getItem('interests') || '';
       const latitude = localStorage.getItem('latitude') || '52.52'; 
@@ -193,7 +195,7 @@ const Mood = () => {
     setSelectedActivity(activity);
   };
 
-  const handleLockActivity = () => {
+  const handleLockActivity = async () => {
     const latitude = localStorage.getItem('latitude') || '52.52'; 
     const longitude = localStorage.getItem('longitude') || '13.41';
 
@@ -229,7 +231,7 @@ const Mood = () => {
         mood: selectedMood,
         weather: weather,
         activity: selectedActivity.title,
-        status: 'completed'
+        status: 'Completed'
       }
       recordService.createRecord(recordData);
     } catch (error) {
@@ -262,10 +264,10 @@ const Mood = () => {
     
     try {
       const recordData = {
-        moodRecorded: selectedMood,
+        mood: selectedMood,
         weather: weather,
-        activitySuggested: selectedActivity.title,
-        status: 'abandoned'
+        activity: selectedActivity.title,
+        status: 'DidNotComplete'
       }
       recordService.createRecord(recordData);
     } catch (error) {

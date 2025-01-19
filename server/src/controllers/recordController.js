@@ -1,25 +1,37 @@
 const { Record } = require('../models/Record');
-const { User } = require('../models/User');
-const bcrypt = require('bcryptjs');
+const { User } = require('../models/User'); 
 const jwt = require('jsonwebtoken');
 
 const recordController = {
   // Create new record
   async createRecord(req, res) {
     try {
-      const { activitySuggested, moodRecorded, status, weather } = req.body;
-      
+      const authHeader = req.header('Authorization');
+      if (!authHeader) {
+        return res.status(401).json({ message: 'No token, authorization denied' });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findById(decoded.id).select('-password');
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const { activity, mood, status, weather } = req.body;
+      console.log(req.body);
       const record = await Record.create({
-        user: req.user.id,
-        activitySuggested,
-        moodRecorded,
+        user: decoded.id,
+        activitySuggested: activity,
+        moodRecorded: mood,
         status,
-        weather,
+        weather: weather,
         date: Date.now()
       });
 
       res.status(201).json(record);
     } catch (error) {
+      console.log(error);
       res.status(400).json({ message: error.message });
     }
   },
