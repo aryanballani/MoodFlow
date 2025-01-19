@@ -50,6 +50,7 @@ const Profile = () => {
                 // Get location using latitude and longitude (You can use a geocoding API here)
                 if (profileData.location) {
                     const locationData = await getLocationFromCoordinates(profileData.location[0], profileData.location[1]);
+                    console.log("in profile.js, locationData: ", locationData);
                     localStorage.setItem('latitude', locationData[0]);
                     localStorage.setItem('latitude', locationData[1]);
                     // console.log('Location:', locationData);

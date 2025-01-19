@@ -57,9 +57,11 @@ const placesController = {
         return res.status(400).json({ message: 'Please provide latitude, longitude, and place type.' });
       }
 
-      console.log('Type:', type);
+      
       // Use Google Places API to get nearby places based on latitude and longitude
-      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=5000&type=${type}&rankby=prominence&key=${process.env.GOOGLE_API_KEY}`;
+      lowerType = type.replace(/\s/g, '_').toLowerCase();
+      const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=50000&type=${lowerType}&rankby=prominence&key=${process.env.GOOGLE_API_KEY}`;
+      console.log('Places URL:', placesUrl);
       const placesResponse = await axios.get(placesUrl);
 
       console.log('Places response:', placesResponse.data);
@@ -80,6 +82,7 @@ const placesController = {
       res.json({ places });
     } catch (error) {
       console.error(error.message);
+      console.log('Error:', error);
       res.status(500).json({ message: 'An error occurred while fetching nearby places.' });
     }
   },
