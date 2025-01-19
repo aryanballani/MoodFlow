@@ -4,9 +4,11 @@
   
   .mood-header h2 {
     color: #155E95;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
+    margin-top: 0rem;
+    text-align: center;
   }
   
   .mood-header p {

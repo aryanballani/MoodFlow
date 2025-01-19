@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, ArrowLeft } from 'lucide-react';
+import { Camera } from 'lucide-react';
 import '../styles/profile.css';
 import Sidebar from '../components/sidebar';
 
