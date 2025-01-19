@@ -19,14 +19,20 @@ const recordController = {
       }
 
       const { activity, mood, status, weather } = req.body;
-      console.log(req.body);
+      var moodImproved = "NoChange";
+      if (status === "Completed") {
+        moodImproved = "Increased";
+      } else {
+        moodImproved = "Decreased";
+      } 
       const record = await Record.create({
         user: decoded.id,
         activitySuggested: activity,
         moodRecorded: mood,
         status,
         weather: weather,
-        date: Date.now()
+        date: Date.now(),
+        moodImproved: moodImproved
       });
 
       res.status(201).json(record);

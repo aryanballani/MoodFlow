@@ -30,6 +30,11 @@ const recordSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    moodImproved: {
+      type: String,
+      enum: ['Increased', 'Decreased', 'NoChange'],
+      required: true
+    }
   });
   
   // Compound index for efficient querying of user records by date
