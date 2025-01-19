@@ -5,19 +5,6 @@ const api = axios.create({
   baseURL: 'http://localhost:5001/'
 });
 
-// Add token to requests
-// api.interceptors.request.use(config => {
-//     const token = localStorage.getItem('token');
-    
-//     // Skip adding token for registration
-//     if (token && !config.url.includes('/users/register')) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-  
-//     return config;
-//   }, error => {
-//     return Promise.reject(error);
-//   });
   
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
@@ -93,5 +80,12 @@ export const recordService = {
     });
     return response.data;
   },
+
+  async getNearbyPlaces(places) {
+    const response = await api.get('/places', {
+      params: { places, latitude, longitude }
+    });
+    return response.data;
+  }
 
 };
