@@ -3,7 +3,7 @@
 .layout-container {
     display: flex;
     min-height: 100vh;
-    background-color: var(--color-neutral-light);
+    background-color: var(--color-background-light);
 }
 
 .main-content {
@@ -70,7 +70,7 @@
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid var(--color-warning-light);
-    background-color: var(--color-neutral-light);
+    background-color: var(--color-background-light);
 }
 
 .profile-image img {
@@ -127,7 +127,7 @@
 }
 
 .form-group input:disabled {
-    background-color: var(--color-neutral-light);
+    background-color: var(--color-background-light);
     cursor: not-allowed;
 }
 

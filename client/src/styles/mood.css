@@ -1,5 +1,9 @@
 @import url(./variables.css);
 
+.layout-container{
+  background-color :  var(--color-background-light);
+}
+
 .mood-header {
     margin-bottom: 2rem;
   }
