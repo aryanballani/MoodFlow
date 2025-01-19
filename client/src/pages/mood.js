@@ -195,9 +195,9 @@ const Mood = () => {
     const longitude = localStorage.getItem('longitude') || '13.41';
 
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
-    
+    console.log('Locked activity:', selectedActivity.title);
     try {
-      const response = await recordService.getNearbyPlaces(latitude, longitude, "Park");
+      const response = await recordService.getNearbyPlaces(latitude, longitude, selectedActivity.title);
       setNearbyPlaces(response.places);
     } catch (error) {
       console.error('Error fetching places:', error);
