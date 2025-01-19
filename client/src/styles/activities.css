@@ -28,7 +28,7 @@
 
 .activity-page .header p {
     font-size: 1rem;
-    color: var(--color-text-light);
+    color: var(--color-primary);
 }
 
 /* Activity timeline section */
@@ -41,6 +41,7 @@
 /* Activity card */
 .activity-page .activity-card {
     background-color: var(--color-white);
+    color: var(--color-primary);
     border-radius: 0.375rem;
     box-shadow: 0 4px 6px var(--color-box-shadow-hover);
     padding: 1.5rem;
@@ -68,11 +69,11 @@
 .calendar-icon {
     width: 1.25rem;
     height: 1.25rem;
-    color: #6b7280;
+    color: var(--color-primary);
 }
 
 .activity-page .activity-card .card-header .time span {
-    color: var(--color-text-light);
+    color: var(--color-primary);
     font-weight: 500;
 }
 
@@ -116,5 +117,5 @@
 }
 
 .activity-page .activity-card .activity-details p {
-    color: var(--color-text-light);
+    color: var(--color-primary);
 }
