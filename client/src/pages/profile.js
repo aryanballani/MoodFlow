@@ -70,7 +70,7 @@ const Profile = () => {
                                     <img src={imagePreview} alt="Profile" />
                                 ) : (
                                     <div className="image-placeholder">
-                                        <Camera size={40} />
+                                        <Camera size={100} />
                                     </div>
                                 )}
                             </div>

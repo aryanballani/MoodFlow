@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --color-background-light: #FFFCF2;
     --color-white: #ffffff;
     --color-border: #A29F15;
@@ -14,4 +14,21 @@
     --color-neutral-light: #FFFCF2;
     --color-box-shadow: rgba(0, 0, 0, 0.05);
     --color-box-shadow-hover: rgba(0, 0, 0, 0.1);
+} */
+:root {
+  --color-background-light: #f9fafb;
+  --color-white: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text-dark: #1f2937;
+  --color-text-light: #4b5563;
+  --color-hover-background: #f3f4f6;
+  --color-active-background: #eff6ff;
+  --color-primary: #155E95;
+  --color-primary-light: #040608;
+  --color-success-light: #f0fdf4;
+  --color-info-light: #eff6ff;
+  --color-warning-light: #fefce8;
+  --color-neutral-light: #f5f3ff;
+  --color-box-shadow: rgba(0, 0, 0, 0.05);
+  --color-box-shadow-hover: rgba(0, 0, 0, 0.1);
 }
