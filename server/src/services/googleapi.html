@@ -1,0 +1,318 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Nearby Places</title>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTC_ZaZtDXU4zlZjeSp_k7mOVWU3tSglU&libraries=places&callback=initMap"
+      async
+      defer
+    ></script>
+    <style>
+      /* Set map size */
+      #map {
+        height: 500px;
+        width: 100%;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      h1 {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 0;
+        margin: 0;
+      }
+
+      input {
+        margin: 10px;
+        padding: 8px;
+        width: 300px;
+      }
+
+      button {
+        padding: 8px 12px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nearby Places (Parks, Restaurants)</h1>
+    <input id="location-input" type="text" placeholder="Enter a place name or coordinates (e.g., 'New York' or '40.7128,-74.0060')" />
+    <button onclick="setLocation()">Search</button>
+    <div id="map"></div>
+    <script>
+      let map;
+      let service;
+      let infowindow;
+
+      function initMap() {
+        // Default location to display on the map initially
+        const defaultLocation = { lat: 40.7128, lng: -74.0060 }; // New York City
+
+        // Initialize the map centered on the default location
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: defaultLocation,
+          zoom: 14,
+        });
+
+        infowindow = new google.maps.InfoWindow();
+        service = new google.maps.places.PlacesService(map);
+
+        // Perform an initial search around the default location
+        searchNearbyPlaces(defaultLocation);
+      }
+
+      function setLocation() {
+        const locationInput = document.getElementById("location-input").value;
+
+        if (!locationInput) {
+          alert("Please enter a location.");
+          return;
+        }
+
+        // Check if input is coordinates (e.g., "40.7128,-74.0060")
+        const coordinatesMatch = locationInput.match(/^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/);
+
+        if (coordinatesMatch) {
+          const lat = parseFloat(coordinatesMatch[1]);
+          const lng = parseFloat(coordinatesMatch[3]);
+          const location = { lat, lng };
+
+          // Center the map and search nearby places
+          map.setCenter(location);
+          searchNearbyPlaces(location);
+        } else {
+          // Geocode the place name to get coordinates
+          const geocoder = new google.maps.Geocoder();
+          geocoder.geocode({ address: locationInput }, (results, status) => {
+            if (status === "OK" && results[0].geometry.location) {
+              const location = results[0].geometry.location;
+
+              // Center the map and search nearby places
+              map.setCenter(location);
+              searchNearbyPlaces(location);
+            } else {
+              alert("Geocoding failed: " + status);
+            }
+          });
+        }
+      }
+
+      function searchNearbyPlaces(location) {
+        const request = {
+          location,
+          radius: 5000, // Radius in meters
+          type: ["park", "restaurant"], // Types of places to search for
+        };
+
+        service.nearbySearch(request, handleNearbySearch);
+      }
+
+      function handleNearbySearch(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          if (results.length === 0) {
+            alert("No nearby places found.");
+            return;
+          }
+
+          // Clear previous markers
+          if (map.markers) {
+            map.markers.forEach((marker) => marker.setMap(null));
+          }
+          map.markers = [];
+
+          // Add markers for each result
+          results.forEach((place) => {
+            createMarker(place);
+          });
+        } else {
+          alert("Failed to fetch nearby places. Please try again.");
+        }
+      }
+
+      function createMarker(place) {
+        if (!place.geometry || !place.geometry.location) {
+          console.error("Place geometry is missing for:", place);
+          return;
+        }
+
+        const marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location,
+          title: place.name,
+        });
+
+        // Add marker to the map's marker list
+        if (!map.markers) map.markers = [];
+        map.markers.push(marker);
+
+        // Show info window when a marker is clicked
+        google.maps.event.addListener(marker, "click", () => {
+          infowindow.setContent(
+            `<strong>${place.name}</strong><br><span>${place.vicinity}</span>`
+          );
+          infowindow.open(map, marker);
+        });
+      }
+    </script>
+  </body>
+</html> -->
+<!-- working code above -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nearby Places</title>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTC_ZaZtDXU4zlZjeSp_k7mOVWU3tSglU&libraries=places&callback=initMap"
+      async
+      defer
+    ></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+
+      h1 {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 0;
+        margin: 0;
+      }
+
+      input,
+      button {
+        margin: 10px;
+        padding: 8px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #places-list {
+        list-style-type: none;
+        padding: 0;
+        max-width: 500px;
+        margin: 20px auto;
+        text-align: left;
+      }
+
+      #places-list li {
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+      }
+
+      a {
+        color: #4caf50;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nearby Places</h1>
+    <input id="location-input" type="text" placeholder="Enter location (e.g., New York)" />
+    <input id="type-input" type="text" placeholder="Enter place type (e.g., park)" />
+    <button onclick="searchPlaces()">Search</button>
+    <ul id="places-list"></ul>
+
+    <script>
+      let service;
+
+      function initMap() {
+        // Dummy initialization for PlacesService
+        const map = new google.maps.Map(document.createElement("div"));
+        service = new google.maps.places.PlacesService(map);
+      }
+
+      function searchPlaces() {
+        const location = document.getElementById("location-input").value;
+        const type = document.getElementById("type-input").value;
+
+        if (!location || !type) {
+          alert("Please enter both a location and a place type.");
+          return;
+        }
+
+        // Use Geocoding API to get coordinates for the location
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: location }, (results, status) => {
+          if (status === "OK" && results[0]) {
+            const latLng = results[0].geometry.location;
+
+            // Fetch nearby places using the Places API
+            const request = {
+              location: latLng,
+              radius: 5000, // 5km radius
+              type: [type],
+            };
+
+            service.nearbySearch(request, (results, status) => {
+              if (status === google.maps.places.PlacesServiceStatus.OK) {
+                displayResults(results);
+              } else {
+                alert("No places found or an error occurred.");
+              }
+            });
+          } else {
+            alert("Geocoding failed: " + status);
+          }
+        });
+      }
+
+      function displayResults(results) {
+        // Clear previous results
+        const placesList = document.getElementById("places-list");
+        placesList.innerHTML = "";
+
+        // Add each place to the list
+        results.forEach((place) => {
+          const lat = place.geometry.location.lat();
+          const lng = place.geometry.location.lng();
+
+          // Log lat/lng for debugging
+          console.log(`Place: ${place.name}, Lat: ${lat}, Lng: ${lng}`);
+
+          // Generate Google Maps link
+          const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
+          // Add to the list
+          const listItem = document.createElement("li");
+          listItem.innerHTML = `
+            <strong>${place.name}</strong><br>
+            ${place.vicinity}<br>
+            <a href="${googleMapsLink}" target="_blank">View on Google Maps</a>
+          `;
+          placesList.appendChild(listItem);
+        });
+      }
+    </script>
+  </body>
+</html>
