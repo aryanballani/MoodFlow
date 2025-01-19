@@ -137,7 +137,7 @@ router.get('/places', async (req, res) => {
 
 
 router.get('/activity-suggestions', async (req, res) => {
-  const { latitude, longitude, age, interests} = req.query;
+  const { latitude, longitude, age, interests, mood} = req.query;
 
   if (!latitude || !longitude) {
     return res.status(400).json({ message: 'Please provide latitude and longitude.' });
@@ -152,7 +152,7 @@ router.get('/activity-suggestions', async (req, res) => {
     const weatherCondition = weatherResponse.data.condition; // E.g., "cold and rainy"
 
     // Construct the LLM prompt with places included at the end
-    const prompt = `The current weather is ${weatherCondition}. The user is ${age} years old. the user is interested in ${interests}. Suggest 6 activities I can do based on this weather, keeping my age and interests in mind. Please be thoughtful about your responses and be kind and considerate in sugessting activities. Only generate 6 activities, no more than that. Each activity should be formatted as follows:
+    const prompt = `The current weather is ${weatherCondition}. The user is ${age} years old. the user is interested in ${interests}. The user's current mood is ${mood}. Pay specific attention to the mood and weather. Suggest 6 activities I can do based on this weather, keeping my age, mood and interests in mind. Please be thoughtful about your responses and be kind and considerate in sugessting activities. Only generate 6 activities, no more than that. Each activity should be formatted as follows:
     {
       title: "3 words max for the title", 
       description: "A short description of the activity, max 1 line, mention weather if relevant"

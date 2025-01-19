@@ -372,3 +372,69 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Add these styles to your existing mood.css file */
+
+.nearby-places-section {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.nearby-places-title {
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.nearby-places-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.place-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  transition: transform 0.2s ease;
+}
+
+.place-card:hover {
+  transform: translateY(-4px);
+}
+
+.place-name {
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.place-address {
+  color: var(--color-primary-light);
+  font-size: 0.9rem;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.place-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  text-align: center;
+  background-color: var(--color-info-light);
+  transition: background-color 0.2s ease;
+}
+
+.place-link:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}

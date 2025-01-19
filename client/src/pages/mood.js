@@ -16,6 +16,8 @@ const Mood = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [nearbyPlaces, setNearbyPlaces] = useState([]);
+  
   const handleActivitySelect = (activity) => {
     setSelectedActivity(activity); // This will select the clicked activity
   };
@@ -154,7 +156,7 @@ const Mood = () => {
       const interests = localStorage.getItem('interests') || '';
       const latitude = localStorage.getItem('latitude') || '52.52'; 
       const longitude = localStorage.getItem('longitude') || '13.41';
-      const response = recordService.getActivitySuggestions(latitude, longitude, age, interests);
+      const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
@@ -193,18 +195,17 @@ const Mood = () => {
     const longitude = localStorage.getItem('longitude') || '13.41';
 
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
-    console.log(selectedActivity);
-    console.log(latitude, longitude);
     
     try {
       const response = await recordService.getNearbyPlaces(latitude, longitude, "Park");
-      console.log(response); // Handle the response as required
+      setNearbyPlaces(response.places);
     } catch (error) {
       console.error('Error fetching places:', error);
     }
     
     setIsActivityLocked(true);
 };
+
 
   const handleMarkComplete = () => {
     const newMoodEntry = {
@@ -317,6 +318,28 @@ const Mood = () => {
                 </div>
               </div>
             </div>
+
+            {nearbyPlaces.length > 0 && (
+              <div className="nearby-places-section">
+                <h3 className="nearby-places-title">Recommended Places to Visit</h3>
+                <div className="nearby-places-grid">
+                  {nearbyPlaces.map((place, index) => (
+                    <div key={index} className="place-card mood-card">
+                      <h4 className="place-name">{place.name}</h4>
+                      <p className="place-address">{place.address}</p>
+                      <a 
+                        href={place.googleMapsLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="place-link"
+                      >
+                        View on Google Maps
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

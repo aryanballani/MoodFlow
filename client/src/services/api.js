@@ -70,13 +70,14 @@ export const recordService = {
     return response.data;
   },
 
-  async getActivitySuggestions(latitude, longitude, DOB, interests) {
+  async getActivitySuggestions(latitude, longitude, DOB, interests, mood) {
     const response = await api.get('/activity-suggestions', {
       params: {
         latitude,
         longitude,
         DOB,
-        interests
+        interests,
+        mood
       }
     });
     return response.data;
