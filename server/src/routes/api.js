@@ -5,6 +5,7 @@ const recordController = require('../controllers/recordController');
 const placesController = require('../services/placesController');
 const weatherController = require('../services/weatherController');
 const axios = require('axios');
+require('dotenv').config();
 
 
 // User routes
@@ -63,6 +64,29 @@ router.put('/users/location', userController.updateLocation);
 //       res.status(500).json({ message: 'An error occurred while fetching activity suggestions.' });
 //     }
 // });
+
+router.get('/location', async (req, res) => {
+  const { latitude, longitude } = req.query;
+  console.log('Latitude:', latitude);
+  console.log('Longitude:', longitude);
+
+  if (!latitude || !longitude) {
+    return res.status(400).json({ message: 'Please provide latitude and longitude.' });
+  }
+
+  try {
+    console.log('Fetching location from coordinates:', latitude, longitude);
+    console.log('API Key:', process.env.GOOGLE_API_KEY);
+    const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${process.env.GOOGLE_API_KEY}`);
+    const data = response.data;
+    const location = data.results[0]?.formatted_address || 'Location not found';
+    console.log('Location:', location);
+    res.json({ location });
+  } catch (error) {
+    console.error('Error fetching location from coordinates:', error);
+    res.status(500).json({ message: 'An error occurred while fetching the location.' });
+  }
+});
 
 
 router.get('/activity-suggestions', async (req, res) => {

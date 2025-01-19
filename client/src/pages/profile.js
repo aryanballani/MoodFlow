@@ -14,36 +14,67 @@ const Profile = () => {
     const [profile, setProfile] = useState({
         fullname: '',
         dateOfBirth: '',
-        location: ''
+        email: '',
+        location: '',
+        photo: '',
+        latitude: null,
+        longitude: null
     });
     const [imagePreview, setImagePreview] = useState(null);
+    const [age, setAge] = useState(null);
 
     useEffect(() => {
-        const fetchProfile = () => {
+        const fetchProfile = async () => {
             try {
-                const profileData = userService.getProfile();
+                const profileData = await userService.getProfile();
                 console.log(profileData);
-                profileData.then((data) => {
-                    console.log(data);
-                    const convertDateToDDMMYYYY = (dateString) => {
-                        return moment(dateString, 'YYYY-MM-DD').format('DD-MM-YYYY');
-                    };
-                    data.dateOfBirth = convertDateToDDMMYYYY(data.dateOfBirth);
-                    console.log(data);
-                    setProfile({
-                        fullname: data.fullname,
-                        dateOfBirth: data.dateOfBirth,
-                        location: data.location || '' // Assuming location might be missing
-                    });
+
+                // Calculate age from date of birth
+                const birthDate = moment(profileData.dateOfBirth, 'YYYY-MM-DD');
+                const calculatedAge = moment().diff(birthDate, 'years');
+                setAge(calculatedAge);
+
+                // Update profile data
+                setProfile({
+                    fullname: profileData.fullname,
+                    dateOfBirth: profileData.dateOfBirth,
+                    email: profileData.email,
+                    location: profileData.location || '',
+                    photo: profileData.photo || '', // Assuming photo URL is stored in the profile
+                    latitude: profileData.latitude,
+                    longitude: profileData.longitude
                 });
-                
+
+                // Set profile image preview if any
+                if (profileData.photo) {
+                    setImagePreview(profileData.photo);
+                }
+
+                // Get location using latitude and longitude (You can use a geocoding API here)
+                if (profileData.location) {
+                    const locationData = await getLocationFromCoordinates(profileData.location[0], profileData.location[1]);
+                    console.log('Location:', locationData);
+                    setProfile(prev => ({ ...prev, location: locationData }));
+                }
             } catch (error) {
                 console.error('Error fetching profile:', error);
             }
         };
-    
+
         fetchProfile();
     }, []);
+
+    const getLocationFromCoordinates = async (latitude, longitude) => {
+        // Example API to get location from coordinates. You can replace this with your preferred geocoding API.
+        try {
+            const response = await fetch(`http://localhost:5001/location?latitude=${latitude}&longitude=${longitude}`);
+            const data = await response.json();
+            return data.location;
+        } catch (error) {
+            console.error('Error fetching location from coordinates:', error);
+            return 'Location not available';
+        }
+    };
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
@@ -142,10 +173,31 @@ const Profile = () => {
                             <label>Full Name</label>
                             <input
                                 type="text"
-                                name="name"
+                                name="fullname"
                                 value={profile.fullname}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={profile.email}
+                                onChange={handleInputChange}
+                                disabled={!isEditing}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Age</label>
+                            <input
+                                type="text"
+                                name="age"
+                                value={age || ''}
+                                disabled
                             />
                         </div>
 
@@ -156,7 +208,7 @@ const Profile = () => {
                                 name="location"
                                 value={profile.location}
                                 onChange={handleInputChange}
-                                disabled={!isEditing}
+                                disabled
                             />
                         </div>
 
@@ -166,6 +218,7 @@ const Profile = () => {
                             </button>
                         )}
                     </form>
+
                     <button 
                         onClick={handleLogout}
                         className="logout-button"

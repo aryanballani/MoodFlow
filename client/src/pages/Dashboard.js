@@ -48,16 +48,23 @@ const Dashboard = () => {
       (position) => {
         // Successfully retrieved location
         const { latitude, longitude } = position.coords;
-        console.log('Location:', latitude, longitude);
-        setLocation({ latitude, longitude });
-        // Send location data to the backend
-        userService.updateLocation({ latitude, longitude })
+        if (localStorage.getItem('latitude') !== latitude || localStorage.getItem('longitude') !== longitude) {
+          localStorage.setItem('latitude', latitude);
+          localStorage.setItem('longitude', longitude);
+          userService.updateLocation({ latitude, longitude })
           .then(response => {
             console.log('Location updated:', response);
           })
           .catch(error => {
             console.error('Error updating location:', error);
           });
+        } else {
+          console.log('Location already saved');
+          latitude = localStorage.getItem('latitude');
+          longitude = localStorage.getItem('longitude');
+        }
+        setLocation({ latitude, longitude });
+        // Send location data to the backend
       },
       (error) => {
         // Handle errors, e.g., user denied permission
