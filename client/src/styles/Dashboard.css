@@ -138,3 +138,8 @@
   color: #6A80B9;
   font-size: 0.875rem;
 }
+
+.no-records {
+  color: var(--color-primary);
+  text-align: center;
+}
