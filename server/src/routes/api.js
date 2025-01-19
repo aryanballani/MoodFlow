@@ -77,7 +77,7 @@ router.get('/location', async (req, res) => {
 router.get('/places', async (req, res) => {
   try {
     const { latitude, longitude, types } = req.query; // Get latitude, longitude, and types (as a list)
-    
+
     // Ensure all required parameters are provided
     if (!latitude || !longitude || !types) {
       return res.status(400).json({ message: 'Please provide latitude, longitude, and types.' });
@@ -91,8 +91,15 @@ router.get('/places', async (req, res) => {
 
     // Loop through each place type and fetch the places for that type
     for (const type of placeTypes) {
-      const fetchedPlaces = await placesController.getNearbyPlaces({ latitude, longitude, type });
-      allPlaces = [...allPlaces, ...fetchedPlaces]; // Combine results from each type
+      // Adjusted to call the controller function directly and await its response
+      const placesResponse = await new Promise((resolve, reject) => {
+        placesController.getNearbyPlaces(
+          { query: { latitude, longitude, type } }, // Pass the query parameters correctly
+          { json: (data) => resolve(data.places) } // Capture the places from the response
+        );
+      });
+
+      allPlaces = [...allPlaces, ...placesResponse]; // Combine results from each type
     }
 
     // Return the combined places list
@@ -104,6 +111,7 @@ router.get('/places', async (req, res) => {
     res.status(500).json({ message: 'An error occurred while fetching places.' });
   }
 });
+
 
 router.get('/activity-suggestions', async (req, res) => {
   const { latitude, longitude, age, interests} = req.query;
@@ -121,7 +129,7 @@ router.get('/activity-suggestions', async (req, res) => {
     const weatherCondition = weatherResponse.data.condition; // E.g., "cold and rainy"
 
     // Construct the LLM prompt with places included at the end
-    const prompt = `The current weather is ${weatherCondition}. The user is ${age} years old. the user is interested in ${interests}. Suggest some activities I can do based on this weather, keeping my age and interests in mind. Please be thoughtful about your responses and be kind and considerate in sugessting activities. Each activity should be formatted as follows:
+    const prompt = `The current weather is ${weatherCondition}. The user is ${age} years old. the user is interested in ${interests}. Suggest some activities I can do based on this weather, keeping my age and interests in mind. Please be thoughtful about your responses and be kind and considerate in sugessting activities. Only generate 6 activities, no more than that. Each activity should be formatted as follows:
     {
       title: "3 words max for the title", 
       description: "A short description of the activity, max 1 line"
