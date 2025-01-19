@@ -164,7 +164,7 @@ router.get('/activity-suggestions', async (req, res) => {
     Give 1 activity for weather`;
 
     // Call the LLM API
-    const llmResponse = await axios.post('https://7c38-206-87-113-208.ngrok-free.app/api/generate', {
+    const llmResponse = await axios.post('https://b58e-128-189-128-102.ngrok-free.app/api/generate', {
       model: 'llama3.2:3b',
       prompt: prompt,
       stream: false,
