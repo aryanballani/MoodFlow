@@ -9,6 +9,20 @@ const Mood = () => {
 
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedActivity, setSelectedActivity] = useState(null);
+  const [isActivityLocked, setIsActivityLocked] = useState(() => {
+    return JSON.parse(localStorage.getItem('lockedActivity')) || false;
+  });
+
+  useEffect(() => {
+    // Check for locked activity on component mount
+    const lockedActivity = localStorage.getItem('lockedActivity');
+    const lockedMood = localStorage.getItem('currentMood');
+    if (lockedActivity) {
+      setSelectedActivity(JSON.parse(lockedActivity));
+      setSelectedMood(lockedMood);
+      setIsActivityLocked(true);
+    }
+  }, []);
 
   const moodData = {
     'Happy': {
@@ -71,24 +85,88 @@ const Mood = () => {
     setSelectedActivity(activity);
   };
 
+  const handleLockActivity = () => {
+    localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
+    setIsActivityLocked(true);
+  };
+
   const handleMarkComplete = () => {
     const newMoodEntry = {
       ...moodCards[moodCards.length - 1],
-      completedActivity: selectedActivity.title
+      completedActivity: selectedActivity.title,
+      status: 'completed'
     };
     
     const updatedMoodHistory = [...moodCards.slice(0, -1), newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
     
+    localStorage.removeItem('lockedActivity');
+    setIsActivityLocked(false);
     setSelectedActivity(null);
     setSelectedMood(null);
   };
 
   const handleAbandon = () => {
+    const newMoodEntry = {
+      ...moodCards[moodCards.length - 1],
+      completedActivity: selectedActivity.title,
+      status: 'abandoned'
+    };
+    
+    const updatedMoodHistory = [...moodCards.slice(0, -1), newMoodEntry];
+    setMoodCards(updatedMoodHistory);
+    localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
+    
+    localStorage.removeItem('lockedActivity');
+    setIsActivityLocked(false);
     setSelectedActivity(null);
     setSelectedMood(null);
   };
+
+  if (isActivityLocked && selectedActivity) {
+    return (
+      <div className="layout-container">
+        <Sidebar />
+        <div className="main-content">
+          <div className="content-wrapper">
+            <div className="mood-header">
+              <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
+                {moods.find(m => m.label === selectedMood)?.emoji}
+                {selectedMood}
+              </h2>
+            </div>
+
+            <div style={{ marginBottom: '2rem' }}>
+              <div className="mood-card active" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                <h4 style={{ color: '#155E95', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.75rem', textAlign: 'center' }}>
+                  Activity in Progress: {selectedActivity.title}
+                </h4>
+                <p style={{ color: '#6A80B9', textAlign: 'center', marginBottom: '1.5rem' }}>{selectedActivity.description}</p>
+                
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+                  <button 
+                    className="mood-card"
+                    style={{ maxWidth: '150px', backgroundColor: '#155E95', color: 'white' }}
+                    onClick={handleMarkComplete}
+                  >
+                    Mark as Complete
+                  </button>
+                  <button 
+                    className="mood-card"
+                    style={{ maxWidth: '150px' }}
+                    onClick={handleAbandon}
+                  >
+                    Abandon
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (selectedMood) {
     return (
@@ -113,33 +191,37 @@ const Mood = () => {
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-                <button 
-                  className="mood-card"
-                  style={{ maxWidth: '200px' }}
-                  onClick={() => {/* Regenerate function would go here */}}
-                >
-                  Regenerate Activities
-                </button>
-              </div>
+              {!selectedActivity && (
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <button 
+                    className="mood-card"
+                    style={{ maxWidth: '200px' }}
+                    onClick={() => {/* Regenerate function would go here */}}
+                  >
+                    Regenerate Activities
+                  </button>
+                </div>
+              )}
 
               <h3 style={{ color: '#155E95', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center' }}>
                 Suggested Activities
               </h3>
-              <div className="mood-grid">
-                {moodData[selectedMood].activities.map((activity, index) => (
-                  <div 
-                    key={index} 
-                    className={`mood-card ${selectedActivity?.title === activity.title ? 'active' : ''}`}
-                    onClick={() => handleActivitySelect(activity)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <h4 style={{ color: '#155E95', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.75rem', textAlign: 'center' }}>
-                      {activity.title}
-                    </h4>
-                    <p style={{ color: '#6A80B9', textAlign: 'center' }}>{activity.description}</p>
-                  </div>
-                ))}
+              <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                <div className="mood-grid">
+                  {moodData[selectedMood].activities.map((activity, index) => (
+                    <div 
+                      key={index} 
+                      className={`mood-card ${selectedActivity?.title === activity.title ? 'active' : ''}`}
+                      onClick={() => handleActivitySelect(activity)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <h4 style={{ color: '#155E95', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.75rem', textAlign: 'center' }}>
+                        {activity.title}
+                      </h4>
+                      <p style={{ color: '#6A80B9', textAlign: 'center' }}>{activity.description}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {selectedActivity && (
@@ -147,16 +229,9 @@ const Mood = () => {
                   <button 
                     className="mood-card"
                     style={{ maxWidth: '150px', backgroundColor: '#155E95', color: 'white' }}
-                    onClick={handleMarkComplete}
+                    onClick={handleLockActivity}
                   >
-                    Mark as Complete
-                  </button>
-                  <button 
-                    className="mood-card"
-                    style={{ maxWidth: '150px' }}
-                    onClick={handleAbandon}
-                  >
-                    Abandon
+                    Lock Activity
                   </button>
                 </div>
               )}
@@ -193,18 +268,19 @@ const Mood = () => {
           <div className="mood-history">
             <h3>Recent Mood History</h3>
             <div className="mood-history-list">
-              {moodCards.slice(-5).reverse().map((entry, index) => (
+              {moodCards.slice(-5).map((entry, index) => (
                 <div key={index} className="mood-history-item">
-                  <span className="mood-history-emoji">{entry.emoji}</span>
-                  <span className="mood-history-text">
+                  <div className="mood-history-emoji">{entry.emoji}</div>
+                  <div className="mood-history-text">
                     {entry.mood}
                     {entry.completedActivity && (
                       <span style={{ color: '#6A80B9', marginLeft: '0.5rem' }}>
-                        • Completed: {entry.completedActivity}
+                        • {entry.status === 'abandoned' ? 'Abandoned: ' : 'Completed: '}
+                        {entry.completedActivity}
                       </span>
                     )}
-                  </span>
-                  <span className="mood-history-date">{entry.date}</span>
+                  </div>
+                  <div className="mood-history-date">{entry.date}</div>
                 </div>
               ))}
             </div>
