@@ -3,8 +3,14 @@ import Sidebar from '../components/sidebar';
 import '../styles/mood.css';
 
 const Mood = () => {
+  // const [moodCards, setMoodCards] = useState(() => {
+  //   return JSON.parse(localStorage.getItem('moodHistory')) || [];
+  // });
+
   const [moodCards, setMoodCards] = useState(() => {
-    return JSON.parse(localStorage.getItem('moodHistory')) || [];
+    // Filter to only include entries with completed activities when loading from localStorage
+    const history = JSON.parse(localStorage.getItem('moodHistory')) || [];
+    return history.filter(entry => entry.completedActivity);
   });
 
   const [selectedMood, setSelectedMood] = useState(null);
@@ -56,28 +62,92 @@ const Mood = () => {
         { title: "Relaxing Bath", description: "Draw a warm bath with some calming essential oils" },
         { title: "Light Reading", description: "Pick up a book and read in a cozy corner" }
       ]
+    },
+    'Anxious': {
+      message: "Feeling anxious? Let's focus on grounding and soothing activities.",
+      activities: [
+        { title: "Breathing Exercises", description: "Try deep breathing to calm your nervous system" },
+        { title: "Grounding Walk", description: "Take a walk and focus on the sights and sounds around you" },
+        { title: "Soothing Music", description: "Listen to relaxing or instrumental music to ease your mind" }
+      ]
+    },
+    'Sad': {
+      message: "It's okay to feel sad. Let's focus on activities that bring comfort and healing.",
+      activities: [
+        { title: "Watch a Comforting Movie", description: "Choose a feel-good movie or show to lift your spirits" },
+        { title: "Reach Out to a Friend", description: "Talk to someone you trust about how you're feeling" },
+        { title: "Art Therapy", description: "Express your emotions through drawing, painting, or writing" }
+      ]
+    },
+    'Focused': {
+      message: "You're in the zone! Let's make the most of this focused energy.",
+      activities: [
+        { title: "Deep Work Session", description: "Tackle a challenging task with your full concentration" },
+        { title: "Organize Your Space", description: "Declutter your workspace for maximum productivity" },
+        { title: "Plan Your Week", description: "Outline your tasks and goals for the upcoming week" }
+      ]
+    },
+    'Overwhelmed': {
+      message: "Feeling overwhelmed? Let's break things into manageable steps.",
+      activities: [
+        { title: "Make a Priority List", description: "Write down tasks in order of importance" },
+        { title: "Take a Break", description: "Step away for a few minutes to recharge" },
+        { title: "Ask for Help", description: "Reach out to a friend or colleague for support" }
+      ]
+    },
+    'Excited': {
+      message: "You're feeling excited! Let's channel that enthusiasm.",
+      activities: [
+        { title: "Plan a Celebration", description: "Organize a small event to celebrate what's exciting you" },
+        { title: "Share Your Excitement", description: "Tell someone about what's making you so happy" },
+        { title: "Document the Moment", description: "Write about your excitement in a journal or take pictures" }
+      ]
+    },
+    'Frustrated': {
+      message: "Frustration happens. Let's find ways to release that tension.",
+      activities: [
+        { title: "Physical Activity", description: "Go for a run or do a workout to release pent-up energy" },
+        { title: "Write it Out", description: "Journal about what's bothering you to clear your mind" },
+        { title: "Take a Step Back", description: "Pause and return to the task later with a fresh perspective" }
+      ]
+    },
+    'Hopeful': {
+      message: "Feeling hopeful? Let's nurture that positive outlook.",
+      activities: [
+        { title: "Set a Goal", description: "Write down a goal and steps to achieve it" },
+        { title: "Vision Board", description: "Create a vision board to visualize your dreams" },
+        { title: "Volunteer", description: "Channel your hope into helping others in need" }
+      ]
+    },
+    'Reflective': {
+      message: "You're in a reflective mood. Let's make time for introspection.",
+      activities: [
+        { title: "Gratitude List", description: "Write down things you're grateful for today" },
+        { title: "Reconnect with Nature", description: "Spend some time outdoors, appreciating the world around you" },
+        { title: "Read a Thoughtful Book", description: "Choose a book that encourages introspection" }
+      ]
     }
   };
+  
 
   const moods = [
     { emoji: '😊', label: 'Happy', className: 'mood-card-happy' },
     { emoji: '😌', label: 'Calm', className: 'mood-card-calm' },
     { emoji: '⚡', label: 'Energetic', className: 'mood-card-energetic' },
-    { emoji: '😴', label: 'Tired', className: 'mood-card-tired' }
+    { emoji: '😴', label: 'Tired', className: 'mood-card-tired' },
+    { emoji: '😟', label: 'Anxious', className: 'mood-card-anxious' },
+    { emoji: '😢', label: 'Sad', className: 'mood-card-sad' },
+    { emoji: '🎯', label: 'Focused', className: 'mood-card-focused' },
+    { emoji: '😵', label: 'Overwhelmed', className: 'mood-card-overwhelmed' },
+    { emoji: '🎉', label: 'Excited', className: 'mood-card-excited' },
+    { emoji: '😠', label: 'Frustrated', className: 'mood-card-frustrated' },
+    { emoji: '🌟', label: 'Hopeful', className: 'mood-card-hopeful' },
+    { emoji: '🤔', label: 'Reflective', className: 'mood-card-reflective' }
   ];
+  
 
   const handleMoodSelect = (mood) => {
-    const newMoodEntry = {
-      mood: mood.label,
-      emoji: mood.emoji,
-      timestamp: new Date().toISOString(),
-      date: new Date().toLocaleDateString()
-    };
-
-    const updatedMoodHistory = [...moodCards, newMoodEntry];
-    setMoodCards(updatedMoodHistory);
     setSelectedMood(mood.label);
-    localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
     localStorage.setItem('currentMood', mood.label);
   };
 
@@ -92,12 +162,19 @@ const Mood = () => {
 
   const handleMarkComplete = () => {
     const newMoodEntry = {
-      ...moodCards[moodCards.length - 1],
+      mood: selectedMood,
+      emoji: moods.find(m => m.label === selectedMood)?.emoji,
+      timestamp: new Date().toISOString(),
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit'
+      }),
       completedActivity: selectedActivity.title,
       status: 'completed'
     };
     
-    const updatedMoodHistory = [...moodCards.slice(0, -1), newMoodEntry];
+    const updatedMoodHistory = [...moodCards, newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
     
@@ -109,12 +186,19 @@ const Mood = () => {
 
   const handleAbandon = () => {
     const newMoodEntry = {
-      ...moodCards[moodCards.length - 1],
+      mood: selectedMood,
+      emoji: moods.find(m => m.label === selectedMood)?.emoji,
+      timestamp: new Date().toISOString(),
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit'
+      }),
       completedActivity: selectedActivity.title,
       status: 'abandoned'
     };
     
-    const updatedMoodHistory = [...moodCards.slice(0, -1), newMoodEntry];
+    const updatedMoodHistory = [...moodCards, newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
     
@@ -123,6 +207,34 @@ const Mood = () => {
     setSelectedActivity(null);
     setSelectedMood(null);
   };
+
+  const sortedMoodHistory = () => {
+    return [...moodCards].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  };
+
+  const renderMoodHistory = () => (
+    <div className="mood-history">
+      <h3>Mood History</h3>
+      <div className="mood-history-list">
+        {sortedMoodHistory().map((entry, index) => (
+          <div key={index} className="mood-history-item">
+            <div className="mood-history-emoji">{entry.emoji}</div>
+            <div className="mood-history-text">
+              <div className="mood-label">{entry.mood}</div>
+              <div className="mood-activity" style={{ color: '#6A80B9' }}>
+                {entry.status === 'abandoned' ? 'Abandoned: ' : 'Completed: '}
+                {entry.completedActivity}
+              </div>
+            </div>
+            <div className="mood-history-datetime">
+              <div className="mood-history-date">{entry.date}</div>
+              <div className="mood-history-time">{entry.time}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   if (isActivityLocked && selectedActivity) {
     return (
@@ -173,62 +285,59 @@ const Mood = () => {
       <div className="layout-container">
         <Sidebar />
         <div className="main-content">
-          <div className="content-wrapper">
+          <div className="content-wrapper selected-mood-view">
             <button 
               onClick={() => setSelectedMood(null)}
-              className="mood-card"
-              style={{ maxWidth: '150px', marginBottom: '2rem' }}
+              className="mood-card back-button"
             >
               ← Back
             </button>
             
             <div className="mood-header">
-              <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-                {moods.find(m => m.label === selectedMood)?.emoji}
-                {selectedMood}
+              <h2 className="current-mood">
+                <span>{moods.find(m => m.label === selectedMood)?.emoji}</span>
+                <span>{selectedMood}</span>
               </h2>
-              <p style={{ textAlign: 'center' }}>{moodData[selectedMood].message}</p>
+              <p className="mood-message">{moodData[selectedMood].message}</p>
             </div>
-
-            <div style={{ marginBottom: '2rem' }}>
+    
+            <div className="activities-section">
               {!selectedActivity && (
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                <div className="regenerate-button-container">
                   <button 
-                    className="mood-card"
-                    style={{ maxWidth: '200px' }}
+                    className="mood-card regenerate-button"
                     onClick={() => {/* Regenerate function would go here */}}
                   >
                     Regenerate Activities
                   </button>
                 </div>
               )}
-
-              <h3 style={{ color: '#155E95', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center' }}>
+    
+              <h3 className="activities-title">
                 Suggested Activities
               </h3>
-              <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+              
+              <div className="activities-container">
                 <div className="mood-grid">
                   {moodData[selectedMood].activities.map((activity, index) => (
                     <div 
                       key={index} 
-                      className={`mood-card ${selectedActivity?.title === activity.title ? 'active' : ''}`}
+                      className={`mood-card activity-card ${selectedActivity?.title === activity.title ? 'active' : ''}`}
                       onClick={() => handleActivitySelect(activity)}
-                      style={{ cursor: 'pointer' }}
                     >
-                      <h4 style={{ color: '#155E95', fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '0.75rem', textAlign: 'center' }}>
+                      <h4 className="activity-title">
                         {activity.title}
                       </h4>
-                      <p style={{ color: '#6A80B9', textAlign: 'center' }}>{activity.description}</p>
+                      <p className="activity-description">{activity.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
-
+    
               {selectedActivity && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
+                <div className="lock-button-container">
                   <button 
-                    className="mood-card"
-                    style={{ maxWidth: '150px', backgroundColor: '#155E95', color: 'white' }}
+                    className="mood-card lock-button"
                     onClick={handleLockActivity}
                   >
                     Lock Activity
@@ -265,26 +374,7 @@ const Mood = () => {
             ))}
           </div>
 
-          <div className="mood-history">
-            <h3>Recent Mood History</h3>
-            <div className="mood-history-list">
-              {moodCards.slice(-5).map((entry, index) => (
-                <div key={index} className="mood-history-item">
-                  <div className="mood-history-emoji">{entry.emoji}</div>
-                  <div className="mood-history-text">
-                    {entry.mood}
-                    {entry.completedActivity && (
-                      <span style={{ color: '#6A80B9', marginLeft: '0.5rem' }}>
-                        • {entry.status === 'abandoned' ? 'Abandoned: ' : 'Completed: '}
-                        {entry.completedActivity}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mood-history-date">{entry.date}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {renderMoodHistory()}
         </div>
       </div>
     </div>
