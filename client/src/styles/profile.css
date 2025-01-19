@@ -293,3 +293,47 @@
         font-size: 14px;
     }
 }
+
+/* styles/profile.css */
+
+/* ... your existing profile styles ... */
+
+.logout-button {
+    /* Positioning */
+    display: block;
+    margin: 2rem auto;
+    width: 200px;
+
+    /* Styling */
+    background-color: #dc2626;  /* Vibrant red */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+
+    /* Shadow and depth */
+    box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
+
+    /* Smooth transitions */
+    transition: all 0.2s ease-in-out;
+}
+
+.logout-button:hover {
+    background-color: #b91c1c;  /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(220, 38, 38, 0.3);
+}
+
+.logout-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+}
+
+/* Add focus state for accessibility */
+.logout-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+}
