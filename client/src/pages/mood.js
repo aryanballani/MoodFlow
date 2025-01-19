@@ -178,10 +178,9 @@ const Mood = () => {
         // console.log(data.places);
         setActivities(formattedActivities);
       }
-    } catch (error) {
+    } catch (error) {   // Fallback to default activities if request fails
       console.error('Error fetching activities:', error);
-      // Fallback to default activities if request fails
-      console.log(moodData[mood].activities);
+      localStorage.setItem("weather", 'Sunny'); // Set a default weather
       const suggestedActivities = moodData[mood].activities.map(activity => ({
         title: activity.title,
         description: activity.description,
