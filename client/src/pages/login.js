@@ -9,7 +9,7 @@ const AuthPages = () => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [formData, setFormData] = useState({
     fullName: '',
-    username: '', // New username field
+    username: '',
     email: '',
     password: '',
     repeatPassword: '',
