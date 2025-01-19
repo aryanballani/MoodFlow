@@ -82,10 +82,16 @@ export const recordService = {
     return response.data;
   },
 
-  async getActivitySuggestions(location) {
-    const response = await api.get('/activity-suggestions', { params: location });
+  async getActivitySuggestions(latitude, longitude, DOB, interests) {
+    const response = await api.get('/activity-suggestions', {
+      params: {
+        latitude,
+        longitude,
+        DOB,
+        interests
+      }
+    });
     return response.data;
   },
-
 
 };

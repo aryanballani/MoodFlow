@@ -32,6 +32,7 @@ const Profile = () => {
                 // Calculate age from date of birth
                 const birthDate = moment(profileData.dateOfBirth, 'YYYY-MM-DD');
                 const calculatedAge = moment().diff(birthDate, 'years');
+                localStorage.setItem('age', calculatedAge);
                 setAge(calculatedAge);
 
                 // Update profile data

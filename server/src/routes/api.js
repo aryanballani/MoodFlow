@@ -51,6 +51,7 @@ router.get('/weather', weatherController.getWeatherCondition);
 router.get('/users/profile', userController.getProfile);
 router.put('/users/location', userController.updateLocation);
 
+
 //     if (!latitude || !longitude) {
 //       return res.status(400).json({ message: 'Please provide latitude and longitude.' });
 //     }
@@ -161,12 +162,13 @@ router.get('/location', async (req, res) => {
 // });
 
 router.get('/activity-suggestions', async (req, res) => {
-  const { latitude, longitude } = req.query;
+  const { latitude, longitude, age, interests} = req.query;
 
   if (!latitude || !longitude) {
     return res.status(400).json({ message: 'Please provide latitude and longitude.' });
   }
 
+  console.log('Fetching activity suggestions for:', latitude, longitude, age, interests);
   try {
     // Fetch weather condition
     const weatherResponse = await axios.get('http://localhost:5001/weather', {
@@ -175,7 +177,7 @@ router.get('/activity-suggestions', async (req, res) => {
     const weatherCondition = weatherResponse.data.condition; // E.g., "cold and rainy"
 
     // Construct the LLM prompt with places included at the end
-    const prompt = `The current weather is ${weatherCondition}. Suggest some activities I can do based on this weather. Each activity should be formatted as follows:
+    const prompt = `The current weather is ${weatherCondition}. The user is ${age} years old. the user is interested in ${interests}. Suggest some activities I can do based on this weather. Each activity should be formatted as follows:
     {
       title: "3 words max for the title", 
       description: "A short description of the activity, max 1 line"
