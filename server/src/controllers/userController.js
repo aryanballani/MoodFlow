@@ -7,8 +7,8 @@ const userController = {
   // Register new user
   async register(req, res) {
     try {
-      const { username, email, password, dateOfBirth } = req.body;
-      console.log(process.env.JWT_SECRET)
+      console.log(req.body);
+      const { username, email, password, dateOfBirth, fullName, interests} = req.body;
       // Check if user exists
       const userExists = await User.findOne({ $or: [{ email }, { username }] });
       if (userExists) {
@@ -23,7 +23,9 @@ const userController = {
         username,
         email,
         password: hashedPassword,
-        dateOfBirth
+        dateOfBirth,
+        fullname: fullName,
+        interests
       });
 
       // Generate token
@@ -38,6 +40,7 @@ const userController = {
         token
       });
     } catch (error) {
+      console.log(error);
       res.status(400).json({ message: error.message });
     }
   },

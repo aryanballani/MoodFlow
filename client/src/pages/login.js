@@ -9,6 +9,7 @@ const AuthPages = () => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [formData, setFormData] = useState({
     fullName: '',
+    username: '', // New username field
     email: '',
     password: '',
     repeatPassword: '',
@@ -80,6 +81,7 @@ const AuthPages = () => {
     try {
       await userService.register({
         fullName: formData.fullName,
+        username: formData.username, // Include the username field
         email: formData.email,
         password: formData.password,
         dateOfBirth: formData.dateOfBirth,
@@ -150,6 +152,18 @@ const AuthPages = () => {
                 placeholder="Enter your full name"
                 name="fullName"
                 value={formData.fullName}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Username</label>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Create a username"
+                name="username"
+                value={formData.username}
                 onChange={handleInputChange}
               />
             </div>

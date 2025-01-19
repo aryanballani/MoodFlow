@@ -7,6 +7,11 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true
   },
+  fullname: {
+    type: String,
+    required: true,
+    trim: true
+  },
   email: {
     type: String,
     required: true,
@@ -31,7 +36,8 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     immutable: true  // Prevents modification after creation
-  }
+  },
+  interests: [String], 
 });
 
 const User = mongoose.model('User', userSchema);
