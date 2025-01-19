@@ -18,9 +18,7 @@ const Mood = () => {
   const [activities, setActivities] = useState([]);
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
   
-  const handleActivitySelect = (activity) => {
-    setSelectedActivity(activity); // This will select the clicked activity
-  };
+  const [weather, setWeather] = useState('');
 
   useEffect(() => {
     // Check for locked activity on component mount
@@ -152,12 +150,15 @@ const Mood = () => {
     setIsLoading(true);
     try {
       // Get user data from localStorage
+      setWeather("Sunny");
+      throw new Error('Not implemented');
       const age = localStorage.getItem('age') || '';
       const interests = localStorage.getItem('interests') || '';
       const latitude = localStorage.getItem('latitude') || '52.52'; 
       const longitude = localStorage.getItem('longitude') || '13.41';
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
+      setWeather(data.weather);
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
         const formattedActivities = data.suggestions.map(suggestion => ({
@@ -190,6 +191,10 @@ const Mood = () => {
     </div>
   );
 
+  const handleActivitySelect = (activity) => {
+    setSelectedActivity(activity);
+  };
+
   const handleLockActivity = async () => {
     const latitude = localStorage.getItem('latitude') || '52.52'; 
     const longitude = localStorage.getItem('longitude') || '13.41';
@@ -221,6 +226,18 @@ const Mood = () => {
       status: 'completed'
     };
     
+    try {
+      const recordData = {
+        mood: selectedMood,
+        weather: weather,
+        activity: selectedActivity.title,
+        status: 'Completed'
+      }
+      recordService.createRecord(recordData);
+    } catch (error) {
+      console.error('Error creating record:', error);
+    }
+
     const updatedMoodHistory = [...moodCards, newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
@@ -245,6 +262,18 @@ const Mood = () => {
       status: 'abandoned'
     };
     
+    try {
+      const recordData = {
+        mood: selectedMood,
+        weather: weather,
+        activity: selectedActivity.title,
+        status: 'DidNotComplete'
+      }
+      recordService.createRecord(recordData);
+    } catch (error) {
+      console.error('Error creating record:', error);
+    }
+  
     const updatedMoodHistory = [...moodCards, newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
