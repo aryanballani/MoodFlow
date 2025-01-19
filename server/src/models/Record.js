@@ -28,8 +28,12 @@ const recordSchema = new mongoose.Schema({
     },
     moodImproved: {
       type: Boolean,  // Using Boolean instead of String for Yes/No
+      required: false
+    },
+    weather: {
+      type: String,
       required: true
-    }
+    },
   });
   
   // Compound index for efficient querying of user records by date

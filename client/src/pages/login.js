@@ -1,18 +1,42 @@
 import React, { useState } from 'react';
 import { Camera } from 'lucide-react';
+import { userService } from '../services/api'; // Import userService
 import '../styles/login.css';
 
 const AuthPages = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [profileImage, setProfileImage] = useState(null);
-  
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    username: '', // New username field
+    email: '',
+    password: '',
+    repeatPassword: '',
+    dateOfBirth: '',
+  });
+
+  const [loginData, setLoginData] = useState({
+    usernameOrEmail: '',
+    password: '',
+  });
+
+  const [errorMessage, setErrorMessage] = useState('');
+
   const interests = [
     "Yoga", "Meditation", "Running", "Gym", 
     "Reading", "Cooking", "Gaming", "Travel",
     "Music", "Art", "Sports", "Photography"
   ];
 
-  const [selectedInterests, setSelectedInterests] = useState([]);
+  const handleInputChange = (e, isLoginForm = false) => {
+    const { name, value } = e.target;
+    if (isLoginForm) {
+      setLoginData({ ...loginData, [name]: value });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
 
   const handleInterestToggle = (interest) => {
     if (selectedInterests.includes(interest)) {
@@ -33,6 +57,45 @@ const AuthPages = () => {
     }
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await userService.login({
+        usernameOrEmail: loginData.usernameOrEmail,
+        password: loginData.password,
+      });
+      // Redirect to the home/dashboard page after successful login
+      window.location.href = '/dashboard';
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('Login failed. Please check your credentials.');
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    if (formData.password !== formData.repeatPassword) {
+      setErrorMessage('Passwords do not match.');
+      return;
+    }
+    try {
+      await userService.register({
+        fullName: formData.fullName,
+        username: formData.username, // Include the username field
+        email: formData.email,
+        password: formData.password,
+        dateOfBirth: formData.dateOfBirth,
+        interests: selectedInterests,
+        profileImage: profileImage, // Sending the base64 string
+      });
+      // Redirect to the login page after successful signup
+      setIsLogin(true);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Signup failed. Please try again.');
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -45,28 +108,32 @@ const AuthPages = () => {
           </p>
         </div>
 
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         {isLogin ? (
           // Login Form
-          <form className="auth-form">
+          <form className="auth-form" onSubmit={handleLogin}>
             <div className="form-group">
-              <label className="form-label">
-                Email or Username
-              </label>
+              <label className="form-label">Email or Username</label>
               <input
                 type="text"
                 className="form-input"
                 placeholder="Enter your email or username"
+                name="usernameOrEmail"
+                value={loginData.usernameOrEmail}
+                onChange={(e) => handleInputChange(e, true)}
               />
             </div>
-            
+
             <div className="form-group">
-              <label className="form-label">
-                Password
-              </label>
+              <label className="form-label">Password</label>
               <input
                 type="password"
                 className="form-input"
                 placeholder="Enter your password"
+                name="password"
+                value={loginData.password}
+                onChange={(e) => handleInputChange(e, true)}
               />
             </div>
 
@@ -76,65 +143,80 @@ const AuthPages = () => {
           </form>
         ) : (
           // Signup Form
-          <form className="auth-form">
+          <form className="auth-form" onSubmit={handleSignup}>
             <div className="form-group">
-              <label className="form-label">
-                Full Name
-              </label>
+              <label className="form-label">Full Name</label>
               <input
                 type="text"
                 className="form-input"
                 placeholder="Enter your full name"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">
-                Email
-              </label>
+              <label className="form-label">Username</label>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="Create a username"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Email</label>
               <input
                 type="email"
                 className="form-input"
                 placeholder="Enter your email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">
-                Password
-              </label>
+              <label className="form-label">Password</label>
               <input
                 type="password"
                 className="form-input"
                 placeholder="Create a password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">
-                Repeat Password
-              </label>
+              <label className="form-label">Repeat Password</label>
               <input
                 type="password"
                 className="form-input"
                 placeholder="Repeat your password"
+                name="repeatPassword"
+                value={formData.repeatPassword}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">
-                Date of Birth
-              </label>
+              <label className="form-label">Date of Birth</label>
               <input
                 type="date"
                 className="form-input"
+                name="dateOfBirth"
+                value={formData.dateOfBirth}
+                onChange={handleInputChange}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">
-                Profile Photo
-              </label>
+              <label className="form-label">Profile Photo</label>
               <div className="profile-upload">
                 <div className="profile-image-container">
                   {profileImage ? (
@@ -149,16 +231,12 @@ const AuthPages = () => {
                     className="file-input"
                   />
                 </div>
-                <p className="upload-text">
-                  Click to upload your profile photo
-                </p>
+                <p className="upload-text">Click to upload your profile photo</p>
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label">
-                Interests
-              </label>
+              <label className="form-label">Interests</label>
               <div className="interests-grid">
                 {interests.map((interest) => (
                   <button
