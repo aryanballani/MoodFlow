@@ -47,10 +47,9 @@ const Profile = () => {
             <div className="main-content">
                 <div className="profile-container">
                     <button
-                        className="back-button"
+                        className="back-btn"
                         onClick={() => navigate('/dashboard')}
                     >
-                        <ArrowLeft size={20} />
                         Back to Dashboard
                     </button>
 

@@ -143,3 +143,70 @@
   .save-button:hover {
     background-color: #124d7a;
   }
+
+/* Basic back button style */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 25px;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Arrow icon using pseudo-element */
+.back-btn::before {
+  content: "←";
+  margin-right: 8px;
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effects */
+.back-btn:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  transform: translateX(-5px);
+}
+
+.back-btn:hover::before {
+  transform: translateX(-3px);
+}
+
+/* Active state */
+.back-btn:active {
+  transform: translateX(-5px) scale(0.98);
+}
+
+/* Alternative dark theme */
+.back-btn-dark {
+  background-color: #343a40;
+  border-color: #495057;
+  color: #f8f9fa;
+}
+
+.back-btn-dark:hover {
+  background-color: #495057;
+  border-color: #6c757d;
+}
+
+/* Disabled state */
+.back-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Optional: Small screen adjustments */
+@media (max-width: 768px) {
+  .back-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
