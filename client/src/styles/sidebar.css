@@ -4,7 +4,8 @@
     background-color: white;
     border-right: 1px solid #e5e7eb;
     padding: 1rem;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
   }
   
   .sidebar-header {

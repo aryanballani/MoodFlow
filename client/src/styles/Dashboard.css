@@ -29,29 +29,6 @@
   overflow-y: auto;
 }
 
-/* Sidebar Styles */
-.sidebar {
-  width: 256px;
-  background-color: var(--color-white);
-  border-right: 1px solid var(--color-border);
-  padding: 1rem;
-}
-
-.sidebar-header {
-  margin-bottom: 2rem;
-}
-
-.sidebar-header h1 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--color-text-dark);
-}
-
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
 .nav-item {
   width: 100%;
@@ -99,50 +76,6 @@
   color: var(--color-text-light);
 }
 
-/* Mood Grid */
-.mood-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.mood-card {
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: var(--color-box-shadow);
-  transition: box-shadow 0.2s;
-  border: none;
-  width: 100%;
-  text-align: center;
-}
-
-.mood-card:hover {
-  box-shadow: var(--color-box-shadow-hover);
-}
-
-.mood-card-happy {
-  background-color: var(--color-success-light);
-}
-.mood-card-calm {
-  background-color: var(--color-info-light);
-}
-.mood-card-energetic {
-  background-color: var(--color-warning-light);
-}
-.mood-card-tired {
-  background-color: var(--color-neutral-light);
-}
-
-.mood-emoji {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.mood-label {
-  color: var(--color-text-dark);
-  font-weight: 500;
-}
 
 /* Card Component */
 .card {
@@ -150,50 +83,7 @@
   border-radius: 0.5rem;
   padding: 1.5rem;
   box-shadow: var(--color-box-shadow);
-}
-
-/* Activity Suggestions */
-.activity-suggestions {
-  margin-bottom: 2rem;
-}
-
-.section-header {
-  margin-bottom: 1rem;
-}
-
-.section-header h2 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--color-text-dark);
-}
-
-.activities-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-
-.activity-card {
-  padding: 1rem;
-  background-color: var(--color-background-light);
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-border);
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.activity-card:hover {
-  border-color: var(--color-primary-light);
-}
-
-.activity-card h3 {
-  font-weight: 500;
-  color: var(--color-text-dark);
-}
-
-.activity-card p {
-  font-size: 0.875rem;
-  color: var(--color-text-light);
+  margin-bottom: 50px;
 }
 
 /* Stats Grid */
