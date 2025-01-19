@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Calendar, Activity, BarChart, Settings, User } from 'lucide-react';
+import { Banana, Activity, BarChart, User } from 'lucide-react';
 import '../styles/sidebar.css';
 
 const Sidebar = () => {
@@ -11,9 +11,8 @@ const Sidebar = () => {
   const sidebarItems = [
     { id: 'dashboard', icon: BarChart, label: 'Dashboard', path: '/dashboard' },
     { id: 'activities', icon: Activity, label: 'Activities', path: '/activities' },
-    { id: 'mood', icon: Calendar, label: 'Mood', path: '/mood' },
+    { id: 'mood', icon: Banana, label: 'Mood', path: '/mood' },
     { id: 'profile', icon: User, label: 'Profile', path: '/profile' },
-    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' }
   ];
 
   const handleNavigation = (path) => {
