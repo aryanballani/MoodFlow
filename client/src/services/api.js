@@ -48,6 +48,11 @@ export const userService = {
     console.log(userData);
     const response = await api.put('/users/profile', userData);
     return response.data;
+  },
+  
+  async getProfile() {
+    const response = await api.get('/users/profile');
+    return response.data;
   }
 };
 
@@ -70,5 +75,7 @@ export const recordService = {
   async getMoodAnalytics() {
     const response = await api.get('/records/analytics');
     return response.data;
-  }
+  },
+
+
 };
