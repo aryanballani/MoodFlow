@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <!-- Define emoji components for reuse -->
+  <defs>
+    <!-- Happy Emojis -->
+    <g id="happy1">
+      <circle r="90" fill="#FFD93D"/>
+      <path d="M-20 -5a4 4 0 008 0M16 -5a4 4 0 008 0M-20 15q20 15 40 0" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+    
+    <g id="happy2">
+      <circle r="90" fill="#FF9EAA"/>
+      <path d="M-20 -10l8 8M-12 -10l-8 8M12 -10l8 8M20 -10l-8 8M-15 20q15 10 30 0" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+    
+    <g id="happy3">
+      <circle r="90" fill="#4CD964"/>
+      <path d="M-15 -5h10M10 -5h10M-20 15q20 15 40 0" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+
+    <!-- Neutral Emojis -->
+    <g id="neutral1">
+      <circle r="90" fill="#B8B8B8"/>
+      <path d="M-20 -5h12M12 -5h12M-20 15h40" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+    
+    <g id="neutral2">
+      <circle r="90" fill="#D3D3D3"/>
+      <path d="M-15 -10a4 4 0 008 0M12 -10a4 4 0 008 0M-20 15h40" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+
+    <!-- Sad Emojis -->
+    <g id="sad1">
+      <circle r="90" fill="#90A4AE"/>
+      <path d="M-20 -10a4 4 0 008 0M16 -10a4 4 0 008 0M-20 20q20 -15 40 0" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+    
+    <g id="sad2">
+      <circle r="90" fill="#7986CB"/>
+      <path d="M-20 -5h10M10 -5h10M-20 20q20 -15 40 0" stroke="#000" stroke-width="3" fill="none"/>
+    </g>
+  </defs>
+
+  <!-- Generate random emojis -->
+  <!-- Row 1 -->
+  <use href="#happy1" x="100" y="100" transform="rotate(10, 100, 100)"/>
+  <use href="#sad1" x="250" y="120" transform="rotate(-5, 250, 120)"/>
+  <use href="#neutral1" x="400" y="90" transform="rotate(8, 400, 90)"/>
+  <use href="#happy2" x="550" y="110" transform="rotate(-12, 550, 110)"/>
+  <use href="#sad2" x="700" y="95" transform="rotate(15, 700, 95)"/>
+  <use href="#neutral2" x="850" y="100" transform="rotate(-8, 850, 100)"/>
+
+  <!-- Row 2 -->
+  <use href="#neutral2" x="150" y="280" transform="rotate(-8, 150, 280)"/>
+  <use href="#happy3" x="300" y="300" transform="rotate(12, 300, 300)"/>
+  <use href="#sad1" x="450" y="270" transform="rotate(-10, 450, 270)"/>
+  <use href="#happy1" x="600" y="290" transform="rotate(7, 600, 290)"/>
+  <use href="#neutral1" x="750" y="275" transform="rotate(-15, 750, 275)"/>
+  <use href="#sad2" x="900" y="280" transform="rotate(10, 900, 280)"/>
+
+  <!-- Row 3 -->
+  <use href="#sad2" x="200" y="460" transform="rotate(9, 200, 460)"/>
+  <use href="#happy2" x="400" y="480" transform="rotate(-7, 400, 480)"/>
+  <use href="#neutral2" x="600" y="450" transform="rotate(11, 600, 450)"/>
+  <use href="#sad1" x="800" y="470" transform="rotate(-9, 800, 470)"/>
+  <use href="#happy3" x="1000" y="455" transform="rotate(13, 1000, 455)"/>
+  <use href="#neutral1" x="1150" y="460" transform="rotate(-8, 1150, 460)"/>
+
+  <!-- Row 4 -->
+  <use href="#happy1" x="125" y="640" transform="rotate(-11, 125, 640)"/>
+  <use href="#neutral1" x="275" y="660" transform="rotate(6, 275, 660)"/>
+  <use href="#sad2" x="425" y="630" transform="rotate(-14, 425, 630)"/>
+  <use href="#happy2" x="575" y="650" transform="rotate(8, 575, 650)"/>
+  <use href="#neutral2" x="725" y="635" transform="rotate(-10, 725, 635)"/>
+  <use href="#sad1" x="875" y="640" transform="rotate(6, 875, 640)"/>
+
+  <!-- Row 5 -->
+  <use href="#sad1" x="100" y="820" transform="rotate(7, 100, 820)"/>
+  <use href="#happy3" x="250" y="840" transform="rotate(-13, 250, 840)"/>
+  <use href="#neutral1" x="400" y="810" transform="rotate(9, 400, 810)"/>
+  <use href="#sad2" x="550" y="830" transform="rotate(-6, 550, 830)"/>
+  <use href="#happy1" x="700" y="815" transform="rotate(12, 700, 815)"/>
+  <use href="#neutral2" x="850" y="820" transform="rotate(10, 850, 820)"/>
+
+  <!-- Row 6 -->
+  <use href="#happy3" x="1000" y="830" transform="rotate(10, 1000, 830)"/>
+  <use href="#sad1" x="1150" y="850" transform="rotate(-5, 1150, 850)"/>
+  <use href="#neutral1" x="1300" y="820" transform="rotate(8, 1300, 820)"/>
+  <use href="#happy2" x="1450" y="835" transform="rotate(-12, 1450, 835)"/>
+</svg>
