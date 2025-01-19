@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Banana, Activity, BarChart, User, Menu, X, Sun, Moon } from 'lucide-react';
+import { Waves, Activity, BarChart, User, Menu, X, Sun, Moon } from 'lucide-react';
 import '../styles/sidebar.css';
+import logo from '../media/logo.svg';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -13,11 +14,10 @@ const Sidebar = () => {
   const sidebarItems = [
     { id: 'dashboard', icon: BarChart, label: 'Dashboard', path: '/dashboard' },
     { id: 'activities', icon: Activity, label: 'Activities', path: '/activities' },
-    { id: 'mood', icon: Banana, label: 'Mood', path: '/mood' },
+    { id: 'mood', icon: Waves, label: 'Mood', path: '/mood' },
     { id: 'profile', icon: User, label: 'Profile', path: '/profile' },
   ];
 
-  // Initialize theme from localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const isDark = savedTheme === 'dark';
@@ -25,7 +25,6 @@ const Sidebar = () => {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   }, []);
 
-  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       setIsOpen(window.innerWidth > 768);
@@ -55,21 +54,17 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-container">
-      {/* Toggle Button */}
       <button className="sidebar-toggle" onClick={toggleSidebar}>
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Overlay for mobile */}
       <div 
         className={`sidebar-overlay ${isOpen ? 'open' : ''}`}
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Sidebar */}
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <h1>Moody</h1>
           <button
             onClick={toggleTheme}
             className="theme-toggle"
@@ -77,7 +72,11 @@ const Sidebar = () => {
           >
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+          <div className="logo-container">
+            <img src={logo} alt="MoodFlow" className="app-logo" />
+          </div>
         </div>
+        
         <nav className="sidebar-nav">
           {sidebarItems.map(({ id, icon: Icon, label, path }) => (
             <button

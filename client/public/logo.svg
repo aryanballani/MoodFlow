@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120">
+  <!-- Background Wave -->
+  <path 
+    d="M0 80 C100 40, 200 120, 300 60 S400 80, 400 80 L400 120 L0 120 Z" 
+    fill="#6A80B9" 
+    opacity="0.2"
+  />
+  
+  <!-- Main Wave -->
+  <path 
+    d="M0 90 C100 50, 200 130, 300 70 S400 90, 400 90" 
+    fill="none" 
+    stroke="#6A80B9" 
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+  
+  <!-- Mood Circles -->
+  <circle cx="120" cy="65" r="15" fill="#FFD93D"/>  <!-- Happy -->
+  <circle cx="200" cy="95" r="12" fill="#4F9BFF"/>  <!-- Calm -->
+  <circle cx="280" cy="75" r="14" fill="#FF6B6B"/>  <!-- Energetic -->
+  
+  <!-- Text -->
+  <text x="50" y="40" font-family="Arial" font-weight="bold" font-size="36" fill="#155E95">
+    Mood
+    <tspan x="160" y="40" fill="#6A80B9">Flow</tspan>
+  </text>
+</svg>
