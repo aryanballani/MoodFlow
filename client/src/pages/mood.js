@@ -14,6 +14,7 @@ const Mood = () => {
   const [isActivityLocked, setIsActivityLocked] = useState(() => {
     return JSON.parse(localStorage.getItem('lockedActivity')) || false;
   });
+  const [weather, setWeather] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activities, setActivities] = useState([]);
   const [nearbyPlaces, setNearbyPlaces] = useState([]);
@@ -160,6 +161,7 @@ const Mood = () => {
       const longitude = localStorage.getItem('longitude') || '13.41';
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
+      setWeather(data.weather);
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
         const formattedActivities = data.suggestions.map(suggestion => ({
@@ -223,6 +225,18 @@ const Mood = () => {
       status: 'completed'
     };
     
+
+    try {
+      const recordData = {
+        mood: selectedMood,
+        weather: weather,
+        activity: selectedActivity.title,
+        status: "Completed"
+      }
+      recordService.createRecord(recordData);
+    } catch(error) {
+      console.error('Error creating record:', error);
+    }
     const updatedMoodHistory = [...moodCards, newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
@@ -247,6 +261,18 @@ const Mood = () => {
       status: 'abandoned'
     };
     
+
+    try {
+      const recordData = {
+        mood: selectedMood,
+        weather: weather,
+        activity: selectedActivity.title,
+        status: "Completed"
+      }
+      recordService.createRecord(recordData);
+    } catch(error) {
+      console.error("Error creating record:", error);
+    }
     const updatedMoodHistory = [...moodCards, newMoodEntry];
     setMoodCards(updatedMoodHistory);
     localStorage.setItem('moodHistory', JSON.stringify(updatedMoodHistory));
