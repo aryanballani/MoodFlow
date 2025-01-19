@@ -1,37 +1,33 @@
-import React from 'react';
-import { Calendar, Cloud, Sun, CloudRain, Wind, Award } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar, Cloud, Sun, CloudRain, Wind } from 'lucide-react';
 import '../styles/activities.css';
 import Sidebar from '../components/sidebar';
 
 const ActivityPage = () => {
-  const activities = [
-    {
-      id: 1,
-      date: '2024-01-18T10:30:00',
-      mood: '😊',
-      weather: 'sunny',
-      activity: 'Morning walk',
-      description: 'Started the day with a refreshing 30min walk'
-    },
-    {
-      id: 2,
-      date: '2024-01-18T14:15:00',
-      mood: '💪',
-      weather: 'cloudy',
-      activity: 'Gym session',
-      description: 'Hit the gym for strength training'
-    },
-    {
-      id: 3,
-      date: '2024-01-18T20:00:00',
-      mood: '😌',
-      weather: 'rainy',
-      activity: 'Evening meditation',
-      description: 'Peaceful meditation session before bed'
-    }
-  ];
+  const [activities, setActivities] = useState([]);
 
-  const streak = 7;
+  useEffect(() => {
+    // Get activities from localStorage
+    const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
+    
+    // Transform mood history into activity format
+    const formattedActivities = moodHistory.map((entry, index) => ({
+      id: index + 1,
+      date: entry.timestamp,
+      mood: entry.emoji,
+      weather: entry.weather || 'sunny', // Add weather if you have it in mood history
+      activity: entry.completedActivity,
+      description: entry.description || `${entry.status === 'completed' ? 'Completed' : 'Abandoned'} activity when feeling ${entry.mood}`,
+      status: entry.status
+    }));
+
+    // Sort activities by date (most recent first)
+    const sortedActivities = formattedActivities.sort((a, b) => 
+      new Date(b.date) - new Date(a.date)
+    );
+
+    setActivities(sortedActivities);
+  }, []);
 
   const getWeatherIcon = (weather) => {
     switch (weather) {
@@ -49,6 +45,14 @@ const ActivityPage = () => {
     });
   };
 
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString([], {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
   return (
     <div className="activity-page">
       <Sidebar />
@@ -58,27 +62,39 @@ const ActivityPage = () => {
           <p>Track your daily activities and moods</p>
         </div>
         
-        <div className="activity-timeline">
-          {activities.map((activity) => (
-            <div key={activity.id} className="activity-card">
-              <div className="card-header">
-                <div className="time">
-                  <Calendar className="calendar-icon" />
-                  <span>{formatTime(activity.date)}</span>
+        {activities.length === 0 ? (
+          <div className="no-activities">
+            <p>No activities recorded yet. Start by logging your mood and completing activities!</p>
+          </div>
+        ) : (
+          <div className="activity-timeline">
+            {activities.map((activity) => (
+              <div 
+                key={activity.id} 
+                className={`activity-card ${activity.status === 'abandoned' ? 'abandoned' : ''}`}
+              >
+                <div className="card-header">
+                  <div className="time">
+                    <Calendar className="calendar-icon" />
+                    <span>{formatDate(activity.date)} at {formatTime(activity.date)}</span>
+                  </div>
+                  <div className="mood-weather">
+                    <span>{activity.mood}</span>
+                    {getWeatherIcon(activity.weather)}
+                  </div>
                 </div>
-                <div className="mood-weather">
-                  <span>{activity.mood}</span>
-                  {getWeatherIcon(activity.weather)}
+                
+                <div className="activity-details">
+                  <h3>{activity.activity}</h3>
+                  <p>{activity.description}</p>
+                  <span className="activity-status">
+                    Status: {activity.status.charAt(0).toUpperCase() + activity.status.slice(1)}
+                  </span>
                 </div>
               </div>
-              
-              <div className="activity-details">
-                <h3>{activity.activity}</h3>
-                <p>{activity.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
