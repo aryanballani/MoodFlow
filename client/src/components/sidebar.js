@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Banana, Activity, BarChart, User, Menu, X } from 'lucide-react';
+import { Banana, Activity, BarChart, User, Menu, X, Sun, Moon } from 'lucide-react';
 import '../styles/sidebar.css';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(window.innerWidth > 768);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const currentPath = location.pathname.split('/')[1] || 'dashboard';
 
   const sidebarItems = [
@@ -15,6 +16,14 @@ const Sidebar = () => {
     { id: 'mood', icon: Banana, label: 'Mood', path: '/mood' },
     { id: 'profile', icon: User, label: 'Profile', path: '/profile' },
   ];
+
+  // Initialize theme from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const isDark = savedTheme === 'dark';
+    setIsDarkMode(isDark);
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  }, []);
 
   // Handle window resize
   useEffect(() => {
@@ -25,6 +34,13 @@ const Sidebar = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const toggleTheme = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    document.documentElement.setAttribute('data-theme', newDarkMode ? 'dark' : 'light');
+    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+  };
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -54,6 +70,13 @@ const Sidebar = () => {
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h1>Moody</h1>
+          <button
+            onClick={toggleTheme}
+            className="theme-toggle"
+            aria-label="Toggle theme"
+          >
+            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
         </div>
         <nav className="sidebar-nav">
           {sidebarItems.map(({ id, icon: Icon, label, path }) => (
