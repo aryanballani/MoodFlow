@@ -81,9 +81,9 @@ export const recordService = {
     return response.data;
   },
 
-  async getNearbyPlaces(places) {
+  async getNearbyPlaces(latitude, longitude, type) {
     const response = await api.get('/places', {
-      params: { places, latitude, longitude }
+      params: { latitude, longitude, type }
     });
     return response.data;
   }
