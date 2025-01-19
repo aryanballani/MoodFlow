@@ -163,9 +163,15 @@ const Mood = () => {
       const response = recordService.getActivitySuggestions(latitude, longitude, age, interests, mood);
       const data = await response;
       // console.log(data);
-      localStorage.setItem("weather", data.weather);
+      setWeather(data.weather);
       if (data.suggestions) {
         // Transform the suggestions into the format your app expects
+        const suggestedActivities = data.suggestions.map(suggestion => ({
+          title: suggestion.title || suggestion,
+          description: suggestion.description || suggestion,
+          venue_type: suggestion.Generalized_venue || 'Location'
+        }));
+        setSuggestedActivities(suggestedActivities);
         const formattedActivities = data.suggestions.map(suggestion => ({
           title: suggestion.title || suggestion,
           description: suggestion.description || suggestion,
@@ -203,6 +209,7 @@ const Mood = () => {
     localStorage.setItem('currentMood', selectedMood);
 
     localStorage.setItem('lockedActivity', JSON.stringify(selectedActivity));
+    // console.log('Locked activity:', selectedActivity.title);
     try {
       const generalized_venue_activity = suggestedActivities.find(activity => activity.title === selectedActivity.title).venue_type;
       generalized_venue_activity.toLowerCase();
@@ -235,7 +242,7 @@ const Mood = () => {
     try {
       const recordData = {
         mood: localStorage.getItem('currentMood'),
-        weather: localStorage.getItem('weather'),
+        weather: weather,
         activity: selectedActivity.title,
         status: "Completed"
       }
@@ -271,7 +278,7 @@ const Mood = () => {
     try {
       const recordData = {
         mood: localStorage.getItem('currentMood'),
-        weather: localStorage.getItem('weather'),
+        weather: weather,
         activity: selectedActivity.title,
         status: "Completed"
       }
