@@ -1,10 +1,16 @@
 @import url(./variables.css);
 
+.main-content {
+    padding: 2rem;
+    overflow-y: auto;
+    background-color: var(--color-background-light);
+}
 /* General container for the page */
 .activity-page {
-    max-width: 1024px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 1.5rem;
+    background-color: var(--color-background-light);
 }
 
 /* Header section styles */
