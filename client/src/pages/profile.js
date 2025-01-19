@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Camera } from 'lucide-react';
 import '../styles/profile.css';
 import Sidebar from '../components/sidebar';
+import { userService } from '../services/api';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -34,11 +35,18 @@ const Profile = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsEditing(false);
         // Here you would typically send the data to your backend
         console.log('Profile updated:', profile);
+        try {
+            const updatedProfile = await userService.updateProfile(profile);
+            setProfile(updatedProfile);
+            console.log('Profile updated:', updatedProfile);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
     };
 
     return (
