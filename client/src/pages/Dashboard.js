@@ -37,7 +37,6 @@ const Dashboard = () => {
         (position) => {
           // Successfully retrieved location
           const { latitude, longitude } = position.coords;
-          setLocation({ latitude, longitude });
           setLocationPermission(true);  // Permission granted
           // Send location data to the backend
           userService.updateLocation({ latitude, longitude })
