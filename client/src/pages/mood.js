@@ -208,7 +208,7 @@ const Mood = () => {
     <div className="loading-screen">
       <div className="loading-content">
         <div className="loading-spinner"></div>
-        <p>Waiting for LLM response...</p>
+        <p>Thinking about your activities suggestions...</p>
       </div>
     </div>
   );

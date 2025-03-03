@@ -81,7 +81,7 @@
 
 .stat-label {
   font-size: 0.875rem;
-  color: var(--color-text-light);
+  color: var(--color-text-dark);
 }
 
 /* Add these to your existing dashboard.css */
