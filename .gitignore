@@ -7,3 +7,4 @@ coverage/
 setup.sh
 llm-service/venv/
 llm-service/ngrok.exe
+.vercel
