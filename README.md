@@ -2,6 +2,10 @@
 
 Mood Flow is a personalized activity recommendation platform that suggests activities based on your mood, weather, and preferences. It also enables users to log and share activities with friends, fostering a social and engaging experience.
 
+## Watch a tutorial and try It Out
+[![Watch The Video](https://img.youtube.com/vi/jcUoEGAPVgo/0.jpg)](https://www.youtube.com/watch?v=jcUoEGAPVgo)
+
+
 ## Inspiration
 We wanted to build a project that helps people identify the perfect activity tailored to their mood and weather conditions. Additionally, Mood Flow allows users to share their consistent activities through a logging page and connect with friends.
 
@@ -45,6 +49,4 @@ We wanted to build a project that helps people identify the perfect activity tai
 - **Improved UI/UX:** Enhancing the interface for a more seamless user experience.
 - **Scalability:** Improving performance and expanding the recommendation model.
 
-## Watch a tutorial and try It Out
-https://www.youtube.com/watch?v=jcUoEGAPVgo
 
