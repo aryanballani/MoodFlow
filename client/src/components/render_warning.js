@@ -14,7 +14,12 @@ const RenderWarning = () => {
   if (!backendDead) return null;
 
   return (
-    <div className="render-warning-banner">
+    <div className="render-warning-banner" style={{
+      textAlign: 'center',
+      borderBottom: '1px solid #ffeeba',
+      fontSize: '1rem',
+      zIndex: 9999
+    }}>
       Note: The backend is hosted on Render and may take up to 30 seconds to wake up. We are spinning up a new instance for you. Thank you for your patience!
     </div>
   );

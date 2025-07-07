@@ -1,10 +1,9 @@
 .render-warning-banner {
-  background: #fff3cd;
-  color: #856404;
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ffeeba;
-  font-size: 1rem;
-  width: 100%;
-  z-index: 1;
+  background: '#fff3cd';
+  color: '#856404';
+  padding: '10px';
+  position: 'fixed';
+  top: 0;
+  left: 0;
+  width: '100%';
 }
