@@ -5,7 +5,6 @@ import '../styles/profile.css';
 import Sidebar from '../components/sidebar';
 import { userService } from '../services/api';
 import moment from 'moment';
-import { userService } from '../services/api';
 
 const Profile = () => {
     const navigate = useNavigate();
