@@ -5,7 +5,7 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_BASE_URL
 });
 
-  
+
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -23,6 +23,17 @@ export const userService = {
     return response.data;
   },
 
+  async getLocationFromCoordinates(latitude, longitude) {
+    try {
+      const response = await api.post(`/location?latitude=${latitude}&longitude=${longitude}`);
+      const data = await response.json();
+      return data.location;
+    } catch (error) {
+      console.error('Error fetching location from coordinates:', error);
+      return 'Location not available';
+    }
+  },
+
   async login(credentials) {
     console.log(credentials);
     const response = await api.post('/users/login', credentials);
@@ -37,7 +48,7 @@ export const userService = {
     const response = await api.put('/users/profile', userData);
     return response.data;
   },
-  
+
   async getProfile() {
     const response = await api.get('/users/profile');
     return response.data;
@@ -89,6 +100,6 @@ export const recordService = {
     });
 
     return response.data;
-}
+  }
 
 };

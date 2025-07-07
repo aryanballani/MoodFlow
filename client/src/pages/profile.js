@@ -5,7 +5,7 @@ import '../styles/profile.css';
 import Sidebar from '../components/sidebar';
 import { userService } from '../services/api';
 import moment from 'moment';
-
+import { userService } from '../services/api';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -49,7 +49,7 @@ const Profile = () => {
 
                 // Get location using latitude and longitude (You can use a geocoding API here)
                 if (profileData.location) {
-                    const locationData = await getLocationFromCoordinates(profileData.location[0], profileData.location[1]);
+                    const locationData = await userService.getLocationFromCoordinates(profileData.location[0], profileData.location[1]);
                     console.log("in profile.js, locationData: ", locationData);
                     localStorage.setItem('latitude', locationData[0]);
                     localStorage.setItem('latitude', locationData[1]);
@@ -64,17 +64,6 @@ const Profile = () => {
         fetchProfile();
     }, []);
 
-    const getLocationFromCoordinates = async (latitude, longitude) => {
-        // Example API to get location from coordinates. You can replace this with your preferred geocoding API.
-        try {
-            const response = await fetch(`http://localhost:5001/location?latitude=${latitude}&longitude=${longitude}`);
-            const data = await response.json();
-            return data.location;
-        } catch (error) {
-            console.error('Error fetching location from coordinates:', error);
-            return 'Location not available';
-        }
-    };
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
