@@ -4,6 +4,7 @@ import Sidebar from '../components/sidebar';
 import '../styles/dashboard.css';
 import Card from '../components/card';
 import { recordService, userService } from '../services/api';
+import RenderWarning from '../components/render_warning';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -117,6 +118,7 @@ const Dashboard = () => {
       <div className="main-content">
         <div className="content-wrapper">
           <div className="welcome-header">
+            <RenderWarning />
             <h2>Dashboard Overview</h2>
             <p>Your wellness statistics and trends</p>
           </div>

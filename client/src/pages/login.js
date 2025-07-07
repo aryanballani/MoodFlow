@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Camera } from 'lucide-react';
 import { userService } from '../services/api'; // Import userService
 import '../styles/login.css';
+import RenderWarning from '../components/render_warning'; // Import the warning component
 
 const AuthPages = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -104,6 +105,7 @@ const AuthPages = () => {
 
   return (
     <div className="auth-container">
+      <RenderWarning />
       <div className="auth-card">
         <div className="auth-header">
           <h1 className="auth-title">
